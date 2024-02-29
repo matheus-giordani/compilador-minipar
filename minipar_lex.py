@@ -90,32 +90,32 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-# Construa o analisador léxico
-lexer = lex.lex()
+# # Construa o analisador léxico
+# lexer = lex.lex()
 
-# Exemplo de teste
-example_input = '''
-SEQ
-    result = True
-    i = 1
-    WHILE (i <= 10)
-        IF (i>2 and i != 0 and result)
-            result = result and False
-        i = i + 1
-    #testando comentarios
-PAR
-    j = 1
-    WHILE (j <= 10)
-        IF (j>2 and j != 0 and result)
-            result = result and False
-        j = j + 1
-'''
+# # Exemplo de teste
+# example_input = '''
+# SEQ
+#     result = True
+#     i = 1
+#     WHILE (i <= 10)
+#         IF (i>2 and i != 0 and result)
+#             result = result and False
+#         i = i + 1
+#     #testando comentarios
+# PAR
+#     j = 1
+#     WHILE (j <= 10)
+#         IF (j>2 and j != 0 and result)
+#             result = result and False
+#         j = j + 1
+# '''
 
-lexer.input(example_input)
+# lexer.input(example_input)
 
-# Exiba os tokens encontrados
-while True:
-    tok = lexer.token()
-    if not tok:
-        break  # No more input
-    print(tok)
+# # Exiba os tokens encontrados
+# while True:
+#     tok = lexer.token()
+#     if not tok:
+#         break  # No more input
+#     print(tok)
