@@ -85,13 +85,17 @@ def t_newline(t):
     t.lexer.lineno += len(t.value)
 
 # Tratamento de erros
+erroslexicos = []
 def t_error(t):
+    erroslexicos.append(t)
     print(f"Illegal character '{t.value[0]}'")
     t.lexer.skip(1)
 
 
-# # Construa o analisador léxico
-# lexer = lex.lex()
+
+
+# Construa o analisador léxico
+lexer = lex.lex()
 
 # # Exemplo de teste
 # example_input = '''

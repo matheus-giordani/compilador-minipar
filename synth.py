@@ -63,8 +63,10 @@ def p_c_channel(p):
 # Adicione outras regras de produção conforme necessário para tipos_var, INPUT, OUTPUT, etc.
 
 # Função de tratamento de erros
+errossintaticos = []
 def p_error(p):
-    print(f"Erro de sintaxe na entrada: {p}")
+    errossintaticos.append(p)
+    print("ERRO: ",p)
 
 # Criando o analisador
 parser = yacc.yacc()
