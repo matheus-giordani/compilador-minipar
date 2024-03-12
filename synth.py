@@ -59,7 +59,7 @@ def p_expr(p):
             | LPAREN c_channel RPAREN'''  # Adiciona a opção para c_channel dentro de LPAREN/RPAREN
 
 def p_c_channel(p):
-    'c_channel : CHAN ID ID_COMP1, ID_COMP2'
+    'c_channel : CHAN ID ":" ID "," ID'
 # Adicione outras regras de produção conforme necessário para tipos_var, INPUT, OUTPUT, etc.
 
 # Função de tratamento de erros

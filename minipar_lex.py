@@ -25,7 +25,6 @@ tokens = ['ID', 'EQUAL', 'LPAREN', 'RPAREN','NUMBER',
 ] + list(reserved.values()) # Adiciona as palavras reservadas na lista de tokens
 
 # Expressões regulares para tokens simples
-t_IF = r'if'
 t_COMMENT = r'\#.*'
 t_ELSE = r'else'
 t_WHILE = r'while'
@@ -45,6 +44,7 @@ t_ASPAS = r'\"'
 t_SEQ = r'SEQ'
 t_PAR = r'PAR'
 t_CHAN = r'CHAN'
+t_IF = r'if'
 
 # Ignorar espaços em branco e tabulações
 t_ignore = ' \t'
@@ -73,11 +73,6 @@ def t_BOOLEAN(t):
     return t
 
 # Tratamento de identificadores
-def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value, 'ID')  # Check for reserved words
-    return t
-
 
 # Tratamento de quebras de linha
 def t_newline(t):
@@ -91,6 +86,10 @@ def t_error(t):
     print(f"Illegal character '{t.value[0]}'")
     t.lexer.skip(1)
 
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value, 'ID')  # Verifica se é uma palavra reservada
+    return t
 
 
 
@@ -98,28 +97,28 @@ def t_error(t):
 lexer = lex.lex()
 
 # # Exemplo de teste
-# example_input = '''
-# SEQ
-#     result = True
-#     i = 1
-#     WHILE (i <= 10)
-#         IF (i>2 and i != 0 and result)
-#             result = result and False
-#         i = i + 1
-#     #testando comentarios
-# PAR
-#     j = 1
-#     WHILE (j <= 10)
-#         IF (j>2 and j != 0 and result)
-#             result = result and False
-#         j = j + 1
-# '''
+example_input = '''
+SEQ
+    result = True
+    i = 1
+    WHILE (i <= 10)
+        IF (i>2 and i != 0 and result)
+            result = result and False
+        i = i + 1
+    #testando comentarios
+PAR
+    j = 1
+    WHILE (j <= 10)
+        IF (j>2 and j != 0 and result)
+            result = result and False
+        j = j + 1
+'''
 
-# lexer.input(example_input)
+lexer.input(example_input)
 
-# # Exiba os tokens encontrados
-# while True:
-#     tok = lexer.token()
-#     if not tok:
-#         break  # No more input
-#     print(tok)
+# Exiba os tokens encontrados
+while True:
+    tok = lexer.token()
+    if not tok:
+        break  # No more input
+    print(tok)
