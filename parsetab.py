@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftSEQPARleftIFELSEWHILEleftEQUALleftLESSTHANGREATERTHANNOTEQUALleftPLUSMINUSleftTIMESDIVIDEleftANDORleftCHANAND ASPAS BOOLEAN CHAN COMMENT DIVIDE ELSE EQUAL ERR_STRING FALSE GREATERTHAN ID IF LESSTHAN LPAREN MINUS NOTEQUAL NUMBER OR PAR PLUS RPAREN SEQ STRING TIMES TRUE WHILEprograma_minipar : bloco_stmtbloco_stmt : bloco_SEQ\n                  | bloco_PAR\n                  | stmtsbloco_SEQ : SEQ stmtsbloco_PAR : PAR stmtsstmts : stmt\n             | stmts stmtstmt : atribuicaostmt : IF LPAREN BOOLEAN RPAREN stmt %prec IFstmt : IF LPAREN BOOLEAN RPAREN stmt ELSE stmtstmt : WHILE LPAREN BOOLEAN RPAREN stmt %prec WHILEatribuicao : ID EQUAL exprexpr : c_channel\n            | ID\n            | NUMBER\n            | BOOLEAN\n            | STRING\n            | LPAREN expr RPAREN\n            | LPAREN c_channel RPARENc_channel : CHAN ID ":" ID "," ID'
+_lr_signature = 'leftSEQPARleftIFELSEWHILEleftEQUALleftLESSTHANGREATERTHANNOTEQUALleftPLUSMINUSleftTIMESDIVIDEleftANDORleftCHANAND ASPAS BOOLEAN CHAN COMMENT DIVIDE ELSE EQUAL ERR_STRING FALSE GREATERTHAN ID IF LCURLY LESSTHAN LPAREN MINUS NOTEQUAL NUMBER OR PAR PLUS RCURLY RPAREN SEQ STRING TIMES TRUE WHILEprograma_minipar : stmtstmt :   bloco_SEQ\n                | bloco_PAR\n                | stmt  stmts : stmt \n             | stmts stmtbloco_SEQ : SEQ stmtsbloco_PAR : PAR stmtsstmt : atribuicaostmt : IF expr LCURLY expr RCURLY  %prec IFstmt : IF expr stmt ELSE stmtstmt : WHILE expr stmt %prec WHILEatribuicao : ID EQUAL exprcomp :    NUMBER LESSTHAN NUMBER\n               | NUMBER GREATERTHAN NUMBER\n               | NUMBER EQUAL NUMBER\n               | NUMBER NOTEQUAL \n               | comp AND comp\n               | comp OR comp\n               expr : c_channel\n            | ID\n            | NUMBER\n            | BOOLEAN\n            | STRING\n            | NUMBER PLUS NUMBER\n            | NUMBER MINUS NUMBER\n            | NUMBER TIMES NUMBER\n            | NUMBER DIVIDE NUMBER\n            | LPAREN comp  RPAREN\n            | LPAREN c_channel RPARENc_channel : CHAN ID ":" ID "," ID'
     
-_lr_action_items = {'SEQ':([0,],[6,]),'PAR':([0,],[7,]),'IF':([0,5,6,7,8,9,13,14,15,21,22,23,24,25,26,29,30,34,35,36,37,39,41,43,],[10,10,10,10,-7,-9,-8,10,10,-15,-13,-14,-16,-17,-18,10,10,-10,-12,-19,-20,10,-11,-21,]),'WHILE':([0,5,6,7,8,9,13,14,15,21,22,23,24,25,26,29,30,34,35,36,37,39,41,43,],[11,11,11,11,-7,-9,-8,11,11,-15,-13,-14,-16,-17,-18,11,11,-10,-12,-19,-20,11,-11,-21,]),'ID':([0,5,6,7,8,9,13,14,15,18,21,22,23,24,25,26,27,28,29,30,34,35,36,37,38,39,41,42,43,],[12,12,12,12,-7,-9,-8,12,12,21,-15,-13,-14,-16,-17,-18,21,33,12,12,-10,-12,-19,-20,40,12,-11,43,-21,]),'$end':([1,2,3,4,5,8,9,13,14,15,21,22,23,24,25,26,34,35,36,37,41,43,],[0,-1,-2,-3,-4,-7,-9,-8,-5,-6,-15,-13,-14,-16,-17,-18,-10,-12,-19,-20,-11,-21,]),'ELSE':([9,21,22,23,24,25,26,34,35,36,37,41,43,],[-9,-15,-13,-14,-16,-17,-18,-10,-12,-19,-20,-11,-21,]),'LPAREN':([10,11,18,27,],[16,17,27,27,]),'EQUAL':([12,],[18,]),'BOOLEAN':([16,17,18,27,],[19,20,25,25,]),'NUMBER':([18,27,],[24,24,]),'STRING':([18,27,],[26,26,]),'CHAN':([18,27,],[28,28,]),'RPAREN':([19,20,21,24,25,26,31,32,36,37,43,],[29,30,-15,-16,-17,-18,36,37,-19,-20,-21,]),':':([33,],[38,]),',':([40,],[42,]),}
+_lr_action_items = {'IF':([0,3,4,5,8,9,11,12,13,14,15,16,19,20,21,22,34,35,36,38,39,40,41,42,43,46,52,53,61,],[6,-2,-3,-9,6,6,6,-20,-21,-22,-23,-24,6,6,-4,6,-4,-4,-13,6,-25,-26,-27,-28,-29,-30,-10,-4,-31,]),'WHILE':([0,3,4,5,8,9,11,12,13,14,15,16,19,20,21,22,34,35,36,38,39,40,41,42,43,46,52,53,61,],[7,-2,-3,-9,7,7,7,-20,-21,-22,-23,-24,7,7,-4,7,-4,-4,-13,7,-25,-26,-27,-28,-29,-30,-10,-4,-31,]),'SEQ':([0,3,4,5,8,9,11,12,13,14,15,16,19,20,21,22,34,35,36,38,39,40,41,42,43,46,52,53,61,],[8,-2,-3,-9,8,8,8,-20,-21,-22,-23,-24,8,-7,-4,-8,-4,-4,-13,8,-25,-26,-27,-28,-29,-30,-10,-4,-31,]),'PAR':([0,3,4,5,8,9,11,12,13,14,15,16,19,20,21,22,34,35,36,38,39,40,41,42,43,46,52,53,61,],[9,-2,-3,-9,9,9,9,-20,-21,-22,-23,-24,9,-7,-4,-8,-4,-4,-13,9,-25,-26,-27,-28,-29,-30,-10,-4,-31,]),'ID':([0,3,4,5,6,7,8,9,11,12,13,14,15,16,18,19,20,21,22,23,24,34,35,36,38,39,40,41,42,43,46,51,52,53,60,61,],[10,-2,-3,-9,13,13,10,10,10,-20,-21,-22,-23,-24,33,10,-7,-4,-8,13,13,-4,-4,-13,10,-25,-26,-27,-28,-29,-30,59,-10,-4,61,-31,]),'$end':([1,2,3,4,5,12,13,14,15,16,20,21,22,34,35,36,39,40,41,42,43,46,52,53,61,],[0,-1,-2,-3,-9,-20,-21,-22,-23,-24,-7,-4,-8,-4,-4,-13,-25,-26,-27,-28,-29,-30,-10,-4,-31,]),'ELSE':([3,4,5,12,13,14,15,16,20,21,22,25,34,35,36,39,40,41,42,43,46,52,53,61,],[-2,-3,-9,-20,-21,-22,-23,-24,-7,-4,-8,38,-4,-4,-13,-25,-26,-27,-28,-29,-30,-10,-4,-31,]),'NUMBER':([6,7,17,23,24,26,27,28,29,44,45,47,48,49,],[14,14,32,14,14,39,40,41,42,32,32,56,57,58,]),'BOOLEAN':([6,7,23,24,],[15,15,15,15,]),'STRING':([6,7,23,24,],[16,16,16,16,]),'LPAREN':([6,7,23,24,],[17,17,17,17,]),'CHAN':([6,7,17,23,24,],[18,18,18,18,18,]),'EQUAL':([10,32,],[23,49,]),'LCURLY':([11,12,13,14,15,16,39,40,41,42,43,46,61,],[24,-20,-21,-22,-23,-24,-25,-26,-27,-28,-29,-30,-31,]),'RCURLY':([12,13,14,15,16,37,39,40,41,42,43,46,61,],[-20,-21,-22,-23,-24,52,-25,-26,-27,-28,-29,-30,-31,]),'PLUS':([14,],[26,]),'MINUS':([14,],[27,]),'TIMES':([14,],[28,]),'DIVIDE':([14,],[29,]),'RPAREN':([30,31,50,54,55,56,57,58,61,],[43,46,-17,-18,-19,-14,-15,-16,-31,]),'AND':([30,50,54,55,56,57,58,],[44,-17,-18,-19,-14,-15,-16,]),'OR':([30,50,54,55,56,57,58,],[45,-17,-18,-19,-14,-15,-16,]),'LESSTHAN':([32,],[47,]),'GREATERTHAN':([32,],[48,]),'NOTEQUAL':([32,],[50,]),':':([33,],[51,]),',':([59,],[60,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'programa_minipar':([0,],[1,]),'bloco_stmt':([0,],[2,]),'bloco_SEQ':([0,],[3,]),'bloco_PAR':([0,],[4,]),'stmts':([0,6,7,],[5,14,15,]),'stmt':([0,5,6,7,14,15,29,30,39,],[8,13,8,8,13,13,34,35,41,]),'atribuicao':([0,5,6,7,14,15,29,30,39,],[9,9,9,9,9,9,9,9,9,]),'expr':([18,27,],[22,31,]),'c_channel':([18,27,],[23,32,]),}
+_lr_goto_items = {'programa_minipar':([0,],[1,]),'stmt':([0,8,9,11,19,20,22,38,],[2,21,21,25,34,35,35,53,]),'bloco_SEQ':([0,8,9,11,19,20,22,38,],[3,3,3,3,3,3,3,3,]),'bloco_PAR':([0,8,9,11,19,20,22,38,],[4,4,4,4,4,4,4,4,]),'atribuicao':([0,8,9,11,19,20,22,38,],[5,5,5,5,5,5,5,5,]),'expr':([6,7,23,24,],[11,19,36,37,]),'c_channel':([6,7,17,23,24,],[12,12,31,12,12,]),'stmts':([8,9,],[20,22,]),'comp':([17,44,45,],[30,54,55,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,25 +27,35 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> programa_minipar","S'",1,None,None,None),
-  ('programa_minipar -> bloco_stmt','programa_minipar',1,'p_programa_minipar','synth.py',20),
-  ('bloco_stmt -> bloco_SEQ','bloco_stmt',1,'p_bloco_stmt','synth.py',23),
-  ('bloco_stmt -> bloco_PAR','bloco_stmt',1,'p_bloco_stmt','synth.py',24),
-  ('bloco_stmt -> stmts','bloco_stmt',1,'p_bloco_stmt','synth.py',25),
-  ('bloco_SEQ -> SEQ stmts','bloco_SEQ',2,'p_bloco_SEQ','synth.py',28),
-  ('bloco_PAR -> PAR stmts','bloco_PAR',2,'p_bloco_PAR','synth.py',31),
-  ('stmts -> stmt','stmts',1,'p_stmts','synth.py',34),
-  ('stmts -> stmts stmt','stmts',2,'p_stmts','synth.py',35),
-  ('stmt -> atribuicao','stmt',1,'p_stmt_atribuicao','synth.py',38),
-  ('stmt -> IF LPAREN BOOLEAN RPAREN stmt','stmt',5,'p_stmt_if','synth.py',41),
-  ('stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt','stmt',7,'p_stmt_if_else','synth.py',44),
-  ('stmt -> WHILE LPAREN BOOLEAN RPAREN stmt','stmt',5,'p_stmt_while','synth.py',47),
-  ('atribuicao -> ID EQUAL expr','atribuicao',3,'p_atribuicao','synth.py',50),
-  ('expr -> c_channel','expr',1,'p_expr','synth.py',53),
-  ('expr -> ID','expr',1,'p_expr','synth.py',54),
-  ('expr -> NUMBER','expr',1,'p_expr','synth.py',55),
-  ('expr -> BOOLEAN','expr',1,'p_expr','synth.py',56),
-  ('expr -> STRING','expr',1,'p_expr','synth.py',57),
-  ('expr -> LPAREN expr RPAREN','expr',3,'p_expr','synth.py',58),
-  ('expr -> LPAREN c_channel RPAREN','expr',3,'p_expr','synth.py',59),
-  ('c_channel -> CHAN ID : ID , ID','c_channel',6,'p_c_channel','synth.py',62),
+  ('programa_minipar -> stmt','programa_minipar',1,'p_programa_minipar','synth.py',22),
+  ('stmt -> bloco_SEQ','stmt',1,'p_stmt','synth.py',27),
+  ('stmt -> bloco_PAR','stmt',1,'p_stmt','synth.py',28),
+  ('stmt -> stmt','stmt',1,'p_stmt','synth.py',29),
+  ('stmts -> stmt','stmts',1,'p_stmts','synth.py',32),
+  ('stmts -> stmts stmt','stmts',2,'p_stmts','synth.py',33),
+  ('bloco_SEQ -> SEQ stmts','bloco_SEQ',2,'p_bloco_SEQ','synth.py',36),
+  ('bloco_PAR -> PAR stmts','bloco_PAR',2,'p_bloco_PAR','synth.py',39),
+  ('stmt -> atribuicao','stmt',1,'p_stmt_atribuicao','synth.py',42),
+  ('stmt -> IF expr LCURLY expr RCURLY','stmt',5,'p_stmt_if','synth.py',45),
+  ('stmt -> IF expr stmt ELSE stmt','stmt',5,'p_stmt_if_else','synth.py',50),
+  ('stmt -> WHILE expr stmt','stmt',3,'p_stmt_while','synth.py',54),
+  ('atribuicao -> ID EQUAL expr','atribuicao',3,'p_atribuicao','synth.py',57),
+  ('comp -> NUMBER LESSTHAN NUMBER','comp',3,'p_comp','synth.py',60),
+  ('comp -> NUMBER GREATERTHAN NUMBER','comp',3,'p_comp','synth.py',61),
+  ('comp -> NUMBER EQUAL NUMBER','comp',3,'p_comp','synth.py',62),
+  ('comp -> NUMBER NOTEQUAL','comp',2,'p_comp','synth.py',63),
+  ('comp -> comp AND comp','comp',3,'p_comp','synth.py',64),
+  ('comp -> comp OR comp','comp',3,'p_comp','synth.py',65),
+  ('expr -> c_channel','expr',1,'p_expr','synth.py',70),
+  ('expr -> ID','expr',1,'p_expr','synth.py',71),
+  ('expr -> NUMBER','expr',1,'p_expr','synth.py',72),
+  ('expr -> BOOLEAN','expr',1,'p_expr','synth.py',73),
+  ('expr -> STRING','expr',1,'p_expr','synth.py',74),
+  ('expr -> NUMBER PLUS NUMBER','expr',3,'p_expr','synth.py',75),
+  ('expr -> NUMBER MINUS NUMBER','expr',3,'p_expr','synth.py',76),
+  ('expr -> NUMBER TIMES NUMBER','expr',3,'p_expr','synth.py',77),
+  ('expr -> NUMBER DIVIDE NUMBER','expr',3,'p_expr','synth.py',78),
+  ('expr -> LPAREN comp RPAREN','expr',3,'p_expr','synth.py',79),
+  ('expr -> LPAREN c_channel RPAREN','expr',3,'p_expr','synth.py',80),
+  ('c_channel -> CHAN ID : ID , ID','c_channel',6,'p_c_channel','synth.py',83),
 ]

@@ -2,75 +2,78 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    AND
     ASPAS
     COMMENT
-    DIVIDE
     ERR_STRING
     FALSE
-    GREATERTHAN
-    LESSTHAN
-    MINUS
-    NOTEQUAL
-    OR
-    PLUS
-    TIMES
     TRUE
 
 Grammar
 
 Rule 0     S' -> programa_minipar
-Rule 1     programa_minipar -> bloco_stmt
-Rule 2     bloco_stmt -> bloco_SEQ
-Rule 3     bloco_stmt -> bloco_PAR
-Rule 4     bloco_stmt -> stmts
-Rule 5     bloco_SEQ -> SEQ stmts
-Rule 6     bloco_PAR -> PAR stmts
-Rule 7     stmts -> stmt
-Rule 8     stmts -> stmts stmt
+Rule 1     programa_minipar -> stmt
+Rule 2     stmt -> bloco_SEQ
+Rule 3     stmt -> bloco_PAR
+Rule 4     stmt -> stmt
+Rule 5     stmts -> stmt
+Rule 6     stmts -> stmts stmt
+Rule 7     bloco_SEQ -> SEQ stmts
+Rule 8     bloco_PAR -> PAR stmts
 Rule 9     stmt -> atribuicao
-Rule 10    stmt -> IF LPAREN BOOLEAN RPAREN stmt
-Rule 11    stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-Rule 12    stmt -> WHILE LPAREN BOOLEAN RPAREN stmt
+Rule 10    stmt -> IF expr LCURLY expr RCURLY
+Rule 11    stmt -> IF expr stmt ELSE stmt
+Rule 12    stmt -> WHILE expr stmt
 Rule 13    atribuicao -> ID EQUAL expr
-Rule 14    expr -> c_channel
-Rule 15    expr -> ID
-Rule 16    expr -> NUMBER
-Rule 17    expr -> BOOLEAN
-Rule 18    expr -> STRING
-Rule 19    expr -> LPAREN expr RPAREN
-Rule 20    expr -> LPAREN c_channel RPAREN
-Rule 21    c_channel -> CHAN ID : ID , ID
+Rule 14    comp -> NUMBER LESSTHAN NUMBER
+Rule 15    comp -> NUMBER GREATERTHAN NUMBER
+Rule 16    comp -> NUMBER EQUAL NUMBER
+Rule 17    comp -> NUMBER NOTEQUAL
+Rule 18    comp -> comp AND comp
+Rule 19    comp -> comp OR comp
+Rule 20    expr -> c_channel
+Rule 21    expr -> ID
+Rule 22    expr -> NUMBER
+Rule 23    expr -> BOOLEAN
+Rule 24    expr -> STRING
+Rule 25    expr -> NUMBER PLUS NUMBER
+Rule 26    expr -> NUMBER MINUS NUMBER
+Rule 27    expr -> NUMBER TIMES NUMBER
+Rule 28    expr -> NUMBER DIVIDE NUMBER
+Rule 29    expr -> LPAREN comp RPAREN
+Rule 30    expr -> LPAREN c_channel RPAREN
+Rule 31    c_channel -> CHAN ID : ID , ID
 
 Terminals, with rules where they appear
 
-,                    : 21
-:                    : 21
-AND                  : 
+,                    : 31
+:                    : 31
+AND                  : 18
 ASPAS                : 
-BOOLEAN              : 10 11 12 17
-CHAN                 : 21
+BOOLEAN              : 23
+CHAN                 : 31
 COMMENT              : 
-DIVIDE               : 
+DIVIDE               : 28
 ELSE                 : 11
-EQUAL                : 13
+EQUAL                : 13 16
 ERR_STRING           : 
 FALSE                : 
-GREATERTHAN          : 
-ID                   : 13 15 21 21 21
+GREATERTHAN          : 15
+ID                   : 13 21 31 31 31
 IF                   : 10 11
-LESSTHAN             : 
-LPAREN               : 10 11 12 19 20
-MINUS                : 
-NOTEQUAL             : 
-NUMBER               : 16
-OR                   : 
-PAR                  : 6
-PLUS                 : 
-RPAREN               : 10 11 12 19 20
-SEQ                  : 5
-STRING               : 18
-TIMES                : 
+LCURLY               : 10
+LESSTHAN             : 14
+LPAREN               : 29 30
+MINUS                : 26
+NOTEQUAL             : 17
+NUMBER               : 14 14 15 15 16 16 17 22 25 25 26 26 27 27 28 28
+OR                   : 19
+PAR                  : 8
+PLUS                 : 25
+RCURLY               : 10
+RPAREN               : 29 30
+SEQ                  : 7
+STRING               : 24
+TIMES                : 27
 TRUE                 : 
 WHILE                : 12
 error                : 
@@ -80,45 +83,41 @@ Nonterminals, with rules where they appear
 atribuicao           : 9
 bloco_PAR            : 3
 bloco_SEQ            : 2
-bloco_stmt           : 1
-c_channel            : 14 20
-expr                 : 13 19
+c_channel            : 20 30
+comp                 : 18 18 19 19 29
+expr                 : 10 10 11 12 13
 programa_minipar     : 0
-stmt                 : 7 8 10 11 11 12
-stmts                : 4 5 6 8
+stmt                 : 1 4 5 6 11 11 12
+stmts                : 6 7 8
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . programa_minipar
-    (1) programa_minipar -> . bloco_stmt
-    (2) bloco_stmt -> . bloco_SEQ
-    (3) bloco_stmt -> . bloco_PAR
-    (4) bloco_stmt -> . stmts
-    (5) bloco_SEQ -> . SEQ stmts
-    (6) bloco_PAR -> . PAR stmts
-    (7) stmts -> . stmt
-    (8) stmts -> . stmts stmt
+    (1) programa_minipar -> . stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
     (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
     (13) atribuicao -> . ID EQUAL expr
 
-    SEQ             shift and go to state 6
-    PAR             shift and go to state 7
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+    SEQ             shift and go to state 8
+    PAR             shift and go to state 9
+    ID              shift and go to state 10
 
     programa_minipar               shift and go to state 1
-    bloco_stmt                     shift and go to state 2
+    stmt                           shift and go to state 2
     bloco_SEQ                      shift and go to state 3
     bloco_PAR                      shift and go to state 4
-    stmts                          shift and go to state 5
-    stmt                           shift and go to state 8
-    atribuicao                     shift and go to state 9
+    atribuicao                     shift and go to state 5
 
 state 1
 
@@ -128,489 +127,955 @@ state 1
 
 state 2
 
-    (1) programa_minipar -> bloco_stmt .
+    (1) programa_minipar -> stmt .
+    (4) stmt -> stmt .
 
-    $end            reduce using rule 1 (programa_minipar -> bloco_stmt .)
+  ! reduce/reduce conflict for $end resolved using rule 1 (programa_minipar -> stmt .)
+    $end            reduce using rule 1 (programa_minipar -> stmt .)
+
+  ! $end            [ reduce using rule 4 (stmt -> stmt .) ]
 
 
 state 3
 
-    (2) bloco_stmt -> bloco_SEQ .
+    (2) stmt -> bloco_SEQ .
 
-    $end            reduce using rule 2 (bloco_stmt -> bloco_SEQ .)
+    $end            reduce using rule 2 (stmt -> bloco_SEQ .)
+    IF              reduce using rule 2 (stmt -> bloco_SEQ .)
+    WHILE           reduce using rule 2 (stmt -> bloco_SEQ .)
+    SEQ             reduce using rule 2 (stmt -> bloco_SEQ .)
+    PAR             reduce using rule 2 (stmt -> bloco_SEQ .)
+    ID              reduce using rule 2 (stmt -> bloco_SEQ .)
+    ELSE            reduce using rule 2 (stmt -> bloco_SEQ .)
 
 
 state 4
 
-    (3) bloco_stmt -> bloco_PAR .
+    (3) stmt -> bloco_PAR .
 
-    $end            reduce using rule 3 (bloco_stmt -> bloco_PAR .)
+    $end            reduce using rule 3 (stmt -> bloco_PAR .)
+    IF              reduce using rule 3 (stmt -> bloco_PAR .)
+    WHILE           reduce using rule 3 (stmt -> bloco_PAR .)
+    SEQ             reduce using rule 3 (stmt -> bloco_PAR .)
+    PAR             reduce using rule 3 (stmt -> bloco_PAR .)
+    ID              reduce using rule 3 (stmt -> bloco_PAR .)
+    ELSE            reduce using rule 3 (stmt -> bloco_PAR .)
 
 
 state 5
 
-    (4) bloco_stmt -> stmts .
-    (8) stmts -> stmts . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
-
-    $end            reduce using rule 4 (bloco_stmt -> stmts .)
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
-
-    stmt                           shift and go to state 13
-    atribuicao                     shift and go to state 9
-
-state 6
-
-    (5) bloco_SEQ -> SEQ . stmts
-    (7) stmts -> . stmt
-    (8) stmts -> . stmts stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
-
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
-
-    stmts                          shift and go to state 14
-    stmt                           shift and go to state 8
-    atribuicao                     shift and go to state 9
-
-state 7
-
-    (6) bloco_PAR -> PAR . stmts
-    (7) stmts -> . stmt
-    (8) stmts -> . stmts stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
-
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
-
-    stmts                          shift and go to state 15
-    stmt                           shift and go to state 8
-    atribuicao                     shift and go to state 9
-
-state 8
-
-    (7) stmts -> stmt .
-
-    IF              reduce using rule 7 (stmts -> stmt .)
-    WHILE           reduce using rule 7 (stmts -> stmt .)
-    ID              reduce using rule 7 (stmts -> stmt .)
-    $end            reduce using rule 7 (stmts -> stmt .)
-
-
-state 9
-
     (9) stmt -> atribuicao .
 
+    $end            reduce using rule 9 (stmt -> atribuicao .)
     IF              reduce using rule 9 (stmt -> atribuicao .)
     WHILE           reduce using rule 9 (stmt -> atribuicao .)
+    SEQ             reduce using rule 9 (stmt -> atribuicao .)
+    PAR             reduce using rule 9 (stmt -> atribuicao .)
     ID              reduce using rule 9 (stmt -> atribuicao .)
-    $end            reduce using rule 9 (stmt -> atribuicao .)
     ELSE            reduce using rule 9 (stmt -> atribuicao .)
 
 
+state 6
+
+    (10) stmt -> IF . expr LCURLY expr RCURLY
+    (11) stmt -> IF . expr stmt ELSE stmt
+    (20) expr -> . c_channel
+    (21) expr -> . ID
+    (22) expr -> . NUMBER
+    (23) expr -> . BOOLEAN
+    (24) expr -> . STRING
+    (25) expr -> . NUMBER PLUS NUMBER
+    (26) expr -> . NUMBER MINUS NUMBER
+    (27) expr -> . NUMBER TIMES NUMBER
+    (28) expr -> . NUMBER DIVIDE NUMBER
+    (29) expr -> . LPAREN comp RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (31) c_channel -> . CHAN ID : ID , ID
+
+    ID              shift and go to state 13
+    NUMBER          shift and go to state 14
+    BOOLEAN         shift and go to state 15
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 17
+    CHAN            shift and go to state 18
+
+    expr                           shift and go to state 11
+    c_channel                      shift and go to state 12
+
+state 7
+
+    (12) stmt -> WHILE . expr stmt
+    (20) expr -> . c_channel
+    (21) expr -> . ID
+    (22) expr -> . NUMBER
+    (23) expr -> . BOOLEAN
+    (24) expr -> . STRING
+    (25) expr -> . NUMBER PLUS NUMBER
+    (26) expr -> . NUMBER MINUS NUMBER
+    (27) expr -> . NUMBER TIMES NUMBER
+    (28) expr -> . NUMBER DIVIDE NUMBER
+    (29) expr -> . LPAREN comp RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (31) c_channel -> . CHAN ID : ID , ID
+
+    ID              shift and go to state 13
+    NUMBER          shift and go to state 14
+    BOOLEAN         shift and go to state 15
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 17
+    CHAN            shift and go to state 18
+
+    expr                           shift and go to state 19
+    c_channel                      shift and go to state 12
+
+state 8
+
+    (7) bloco_SEQ -> SEQ . stmts
+    (5) stmts -> . stmt
+    (6) stmts -> . stmts stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
+    (13) atribuicao -> . ID EQUAL expr
+
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+    SEQ             shift and go to state 8
+    PAR             shift and go to state 9
+    ID              shift and go to state 10
+
+    stmts                          shift and go to state 20
+    stmt                           shift and go to state 21
+    bloco_SEQ                      shift and go to state 3
+    bloco_PAR                      shift and go to state 4
+    atribuicao                     shift and go to state 5
+
+state 9
+
+    (8) bloco_PAR -> PAR . stmts
+    (5) stmts -> . stmt
+    (6) stmts -> . stmts stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
+    (13) atribuicao -> . ID EQUAL expr
+
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+    SEQ             shift and go to state 8
+    PAR             shift and go to state 9
+    ID              shift and go to state 10
+
+    stmts                          shift and go to state 22
+    stmt                           shift and go to state 21
+    bloco_SEQ                      shift and go to state 3
+    bloco_PAR                      shift and go to state 4
+    atribuicao                     shift and go to state 5
+
 state 10
 
-    (10) stmt -> IF . LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> IF . LPAREN BOOLEAN RPAREN stmt ELSE stmt
+    (13) atribuicao -> ID . EQUAL expr
 
-    LPAREN          shift and go to state 16
+    EQUAL           shift and go to state 23
 
 
 state 11
 
-    (12) stmt -> WHILE . LPAREN BOOLEAN RPAREN stmt
+    (10) stmt -> IF expr . LCURLY expr RCURLY
+    (11) stmt -> IF expr . stmt ELSE stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
+    (13) atribuicao -> . ID EQUAL expr
 
-    LPAREN          shift and go to state 17
+    LCURLY          shift and go to state 24
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+    SEQ             shift and go to state 8
+    PAR             shift and go to state 9
+    ID              shift and go to state 10
 
+    stmt                           shift and go to state 25
+    bloco_SEQ                      shift and go to state 3
+    bloco_PAR                      shift and go to state 4
+    atribuicao                     shift and go to state 5
 
 state 12
 
-    (13) atribuicao -> ID . EQUAL expr
+    (20) expr -> c_channel .
 
-    EQUAL           shift and go to state 18
+    LCURLY          reduce using rule 20 (expr -> c_channel .)
+    IF              reduce using rule 20 (expr -> c_channel .)
+    WHILE           reduce using rule 20 (expr -> c_channel .)
+    SEQ             reduce using rule 20 (expr -> c_channel .)
+    PAR             reduce using rule 20 (expr -> c_channel .)
+    ID              reduce using rule 20 (expr -> c_channel .)
+    $end            reduce using rule 20 (expr -> c_channel .)
+    ELSE            reduce using rule 20 (expr -> c_channel .)
+    RCURLY          reduce using rule 20 (expr -> c_channel .)
 
 
 state 13
 
-    (8) stmts -> stmts stmt .
+    (21) expr -> ID .
 
-    IF              reduce using rule 8 (stmts -> stmts stmt .)
-    WHILE           reduce using rule 8 (stmts -> stmts stmt .)
-    ID              reduce using rule 8 (stmts -> stmts stmt .)
-    $end            reduce using rule 8 (stmts -> stmts stmt .)
+    LCURLY          reduce using rule 21 (expr -> ID .)
+    IF              reduce using rule 21 (expr -> ID .)
+    WHILE           reduce using rule 21 (expr -> ID .)
+    SEQ             reduce using rule 21 (expr -> ID .)
+    PAR             reduce using rule 21 (expr -> ID .)
+    ID              reduce using rule 21 (expr -> ID .)
+    $end            reduce using rule 21 (expr -> ID .)
+    ELSE            reduce using rule 21 (expr -> ID .)
+    RCURLY          reduce using rule 21 (expr -> ID .)
 
 
 state 14
 
-    (5) bloco_SEQ -> SEQ stmts .
-    (8) stmts -> stmts . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (22) expr -> NUMBER .
+    (25) expr -> NUMBER . PLUS NUMBER
+    (26) expr -> NUMBER . MINUS NUMBER
+    (27) expr -> NUMBER . TIMES NUMBER
+    (28) expr -> NUMBER . DIVIDE NUMBER
 
-    $end            reduce using rule 5 (bloco_SEQ -> SEQ stmts .)
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    LCURLY          reduce using rule 22 (expr -> NUMBER .)
+    IF              reduce using rule 22 (expr -> NUMBER .)
+    WHILE           reduce using rule 22 (expr -> NUMBER .)
+    SEQ             reduce using rule 22 (expr -> NUMBER .)
+    PAR             reduce using rule 22 (expr -> NUMBER .)
+    ID              reduce using rule 22 (expr -> NUMBER .)
+    $end            reduce using rule 22 (expr -> NUMBER .)
+    ELSE            reduce using rule 22 (expr -> NUMBER .)
+    RCURLY          reduce using rule 22 (expr -> NUMBER .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 27
+    TIMES           shift and go to state 28
+    DIVIDE          shift and go to state 29
 
-    stmt                           shift and go to state 13
-    atribuicao                     shift and go to state 9
 
 state 15
 
-    (6) bloco_PAR -> PAR stmts .
-    (8) stmts -> stmts . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (23) expr -> BOOLEAN .
 
-    $end            reduce using rule 6 (bloco_PAR -> PAR stmts .)
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    LCURLY          reduce using rule 23 (expr -> BOOLEAN .)
+    IF              reduce using rule 23 (expr -> BOOLEAN .)
+    WHILE           reduce using rule 23 (expr -> BOOLEAN .)
+    SEQ             reduce using rule 23 (expr -> BOOLEAN .)
+    PAR             reduce using rule 23 (expr -> BOOLEAN .)
+    ID              reduce using rule 23 (expr -> BOOLEAN .)
+    $end            reduce using rule 23 (expr -> BOOLEAN .)
+    ELSE            reduce using rule 23 (expr -> BOOLEAN .)
+    RCURLY          reduce using rule 23 (expr -> BOOLEAN .)
 
-    stmt                           shift and go to state 13
-    atribuicao                     shift and go to state 9
 
 state 16
 
-    (10) stmt -> IF LPAREN . BOOLEAN RPAREN stmt
-    (11) stmt -> IF LPAREN . BOOLEAN RPAREN stmt ELSE stmt
+    (24) expr -> STRING .
 
-    BOOLEAN         shift and go to state 19
+    LCURLY          reduce using rule 24 (expr -> STRING .)
+    IF              reduce using rule 24 (expr -> STRING .)
+    WHILE           reduce using rule 24 (expr -> STRING .)
+    SEQ             reduce using rule 24 (expr -> STRING .)
+    PAR             reduce using rule 24 (expr -> STRING .)
+    ID              reduce using rule 24 (expr -> STRING .)
+    $end            reduce using rule 24 (expr -> STRING .)
+    ELSE            reduce using rule 24 (expr -> STRING .)
+    RCURLY          reduce using rule 24 (expr -> STRING .)
 
 
 state 17
 
-    (12) stmt -> WHILE LPAREN . BOOLEAN RPAREN stmt
+    (29) expr -> LPAREN . comp RPAREN
+    (30) expr -> LPAREN . c_channel RPAREN
+    (14) comp -> . NUMBER LESSTHAN NUMBER
+    (15) comp -> . NUMBER GREATERTHAN NUMBER
+    (16) comp -> . NUMBER EQUAL NUMBER
+    (17) comp -> . NUMBER NOTEQUAL
+    (18) comp -> . comp AND comp
+    (19) comp -> . comp OR comp
+    (31) c_channel -> . CHAN ID : ID , ID
 
-    BOOLEAN         shift and go to state 20
+    NUMBER          shift and go to state 32
+    CHAN            shift and go to state 18
 
+    comp                           shift and go to state 30
+    c_channel                      shift and go to state 31
 
 state 18
 
-    (13) atribuicao -> ID EQUAL . expr
-    (14) expr -> . c_channel
-    (15) expr -> . ID
-    (16) expr -> . NUMBER
-    (17) expr -> . BOOLEAN
-    (18) expr -> . STRING
-    (19) expr -> . LPAREN expr RPAREN
-    (20) expr -> . LPAREN c_channel RPAREN
-    (21) c_channel -> . CHAN ID : ID , ID
-
-    ID              shift and go to state 21
-    NUMBER          shift and go to state 24
-    BOOLEAN         shift and go to state 25
-    STRING          shift and go to state 26
-    LPAREN          shift and go to state 27
-    CHAN            shift and go to state 28
-
-    expr                           shift and go to state 22
-    c_channel                      shift and go to state 23
-
-state 19
-
-    (10) stmt -> IF LPAREN BOOLEAN . RPAREN stmt
-    (11) stmt -> IF LPAREN BOOLEAN . RPAREN stmt ELSE stmt
-
-    RPAREN          shift and go to state 29
-
-
-state 20
-
-    (12) stmt -> WHILE LPAREN BOOLEAN . RPAREN stmt
-
-    RPAREN          shift and go to state 30
-
-
-state 21
-
-    (15) expr -> ID .
-
-    IF              reduce using rule 15 (expr -> ID .)
-    WHILE           reduce using rule 15 (expr -> ID .)
-    ID              reduce using rule 15 (expr -> ID .)
-    $end            reduce using rule 15 (expr -> ID .)
-    ELSE            reduce using rule 15 (expr -> ID .)
-    RPAREN          reduce using rule 15 (expr -> ID .)
-
-
-state 22
-
-    (13) atribuicao -> ID EQUAL expr .
-
-    IF              reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    WHILE           reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    ID              reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    $end            reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    ELSE            reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-
-
-state 23
-
-    (14) expr -> c_channel .
-
-    IF              reduce using rule 14 (expr -> c_channel .)
-    WHILE           reduce using rule 14 (expr -> c_channel .)
-    ID              reduce using rule 14 (expr -> c_channel .)
-    $end            reduce using rule 14 (expr -> c_channel .)
-    ELSE            reduce using rule 14 (expr -> c_channel .)
-
-
-state 24
-
-    (16) expr -> NUMBER .
-
-    IF              reduce using rule 16 (expr -> NUMBER .)
-    WHILE           reduce using rule 16 (expr -> NUMBER .)
-    ID              reduce using rule 16 (expr -> NUMBER .)
-    $end            reduce using rule 16 (expr -> NUMBER .)
-    ELSE            reduce using rule 16 (expr -> NUMBER .)
-    RPAREN          reduce using rule 16 (expr -> NUMBER .)
-
-
-state 25
-
-    (17) expr -> BOOLEAN .
-
-    IF              reduce using rule 17 (expr -> BOOLEAN .)
-    WHILE           reduce using rule 17 (expr -> BOOLEAN .)
-    ID              reduce using rule 17 (expr -> BOOLEAN .)
-    $end            reduce using rule 17 (expr -> BOOLEAN .)
-    ELSE            reduce using rule 17 (expr -> BOOLEAN .)
-    RPAREN          reduce using rule 17 (expr -> BOOLEAN .)
-
-
-state 26
-
-    (18) expr -> STRING .
-
-    IF              reduce using rule 18 (expr -> STRING .)
-    WHILE           reduce using rule 18 (expr -> STRING .)
-    ID              reduce using rule 18 (expr -> STRING .)
-    $end            reduce using rule 18 (expr -> STRING .)
-    ELSE            reduce using rule 18 (expr -> STRING .)
-    RPAREN          reduce using rule 18 (expr -> STRING .)
-
-
-state 27
-
-    (19) expr -> LPAREN . expr RPAREN
-    (20) expr -> LPAREN . c_channel RPAREN
-    (14) expr -> . c_channel
-    (15) expr -> . ID
-    (16) expr -> . NUMBER
-    (17) expr -> . BOOLEAN
-    (18) expr -> . STRING
-    (19) expr -> . LPAREN expr RPAREN
-    (20) expr -> . LPAREN c_channel RPAREN
-    (21) c_channel -> . CHAN ID : ID , ID
-
-    ID              shift and go to state 21
-    NUMBER          shift and go to state 24
-    BOOLEAN         shift and go to state 25
-    STRING          shift and go to state 26
-    LPAREN          shift and go to state 27
-    CHAN            shift and go to state 28
-
-    expr                           shift and go to state 31
-    c_channel                      shift and go to state 32
-
-state 28
-
-    (21) c_channel -> CHAN . ID : ID , ID
+    (31) c_channel -> CHAN . ID : ID , ID
 
     ID              shift and go to state 33
 
 
-state 29
+state 19
 
-    (10) stmt -> IF LPAREN BOOLEAN RPAREN . stmt
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN . stmt ELSE stmt
+    (12) stmt -> WHILE expr . stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
     (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
     (13) atribuicao -> . ID EQUAL expr
 
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+    SEQ             shift and go to state 8
+    PAR             shift and go to state 9
+    ID              shift and go to state 10
 
     stmt                           shift and go to state 34
-    atribuicao                     shift and go to state 9
+    bloco_SEQ                      shift and go to state 3
+    bloco_PAR                      shift and go to state 4
+    atribuicao                     shift and go to state 5
+
+state 20
+
+    (7) bloco_SEQ -> SEQ stmts .
+    (6) stmts -> stmts . stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
+    (13) atribuicao -> . ID EQUAL expr
+
+    $end            reduce using rule 7 (bloco_SEQ -> SEQ stmts .)
+    SEQ             reduce using rule 7 (bloco_SEQ -> SEQ stmts .)
+    PAR             reduce using rule 7 (bloco_SEQ -> SEQ stmts .)
+    ID              reduce using rule 7 (bloco_SEQ -> SEQ stmts .)
+    ELSE            reduce using rule 7 (bloco_SEQ -> SEQ stmts .)
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+
+  ! IF              [ reduce using rule 7 (bloco_SEQ -> SEQ stmts .) ]
+  ! WHILE           [ reduce using rule 7 (bloco_SEQ -> SEQ stmts .) ]
+  ! SEQ             [ shift and go to state 8 ]
+  ! PAR             [ shift and go to state 9 ]
+  ! ID              [ shift and go to state 10 ]
+
+    stmt                           shift and go to state 35
+    bloco_SEQ                      shift and go to state 3
+    bloco_PAR                      shift and go to state 4
+    atribuicao                     shift and go to state 5
+
+state 21
+
+    (5) stmts -> stmt .
+    (4) stmt -> stmt .
+
+  ! reduce/reduce conflict for IF resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for WHILE resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for SEQ resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for PAR resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ID resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for $end resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ELSE resolved using rule 4 (stmt -> stmt .)
+    IF              reduce using rule 4 (stmt -> stmt .)
+    WHILE           reduce using rule 4 (stmt -> stmt .)
+    SEQ             reduce using rule 4 (stmt -> stmt .)
+    PAR             reduce using rule 4 (stmt -> stmt .)
+    ID              reduce using rule 4 (stmt -> stmt .)
+    $end            reduce using rule 4 (stmt -> stmt .)
+    ELSE            reduce using rule 4 (stmt -> stmt .)
+
+  ! IF              [ reduce using rule 5 (stmts -> stmt .) ]
+  ! WHILE           [ reduce using rule 5 (stmts -> stmt .) ]
+  ! SEQ             [ reduce using rule 5 (stmts -> stmt .) ]
+  ! PAR             [ reduce using rule 5 (stmts -> stmt .) ]
+  ! ID              [ reduce using rule 5 (stmts -> stmt .) ]
+  ! $end            [ reduce using rule 5 (stmts -> stmt .) ]
+  ! ELSE            [ reduce using rule 5 (stmts -> stmt .) ]
+
+
+state 22
+
+    (8) bloco_PAR -> PAR stmts .
+    (6) stmts -> stmts . stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
+    (13) atribuicao -> . ID EQUAL expr
+
+    $end            reduce using rule 8 (bloco_PAR -> PAR stmts .)
+    SEQ             reduce using rule 8 (bloco_PAR -> PAR stmts .)
+    PAR             reduce using rule 8 (bloco_PAR -> PAR stmts .)
+    ID              reduce using rule 8 (bloco_PAR -> PAR stmts .)
+    ELSE            reduce using rule 8 (bloco_PAR -> PAR stmts .)
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+
+  ! IF              [ reduce using rule 8 (bloco_PAR -> PAR stmts .) ]
+  ! WHILE           [ reduce using rule 8 (bloco_PAR -> PAR stmts .) ]
+  ! SEQ             [ shift and go to state 8 ]
+  ! PAR             [ shift and go to state 9 ]
+  ! ID              [ shift and go to state 10 ]
+
+    stmt                           shift and go to state 35
+    bloco_SEQ                      shift and go to state 3
+    bloco_PAR                      shift and go to state 4
+    atribuicao                     shift and go to state 5
+
+state 23
+
+    (13) atribuicao -> ID EQUAL . expr
+    (20) expr -> . c_channel
+    (21) expr -> . ID
+    (22) expr -> . NUMBER
+    (23) expr -> . BOOLEAN
+    (24) expr -> . STRING
+    (25) expr -> . NUMBER PLUS NUMBER
+    (26) expr -> . NUMBER MINUS NUMBER
+    (27) expr -> . NUMBER TIMES NUMBER
+    (28) expr -> . NUMBER DIVIDE NUMBER
+    (29) expr -> . LPAREN comp RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (31) c_channel -> . CHAN ID : ID , ID
+
+    ID              shift and go to state 13
+    NUMBER          shift and go to state 14
+    BOOLEAN         shift and go to state 15
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 17
+    CHAN            shift and go to state 18
+
+    expr                           shift and go to state 36
+    c_channel                      shift and go to state 12
+
+state 24
+
+    (10) stmt -> IF expr LCURLY . expr RCURLY
+    (20) expr -> . c_channel
+    (21) expr -> . ID
+    (22) expr -> . NUMBER
+    (23) expr -> . BOOLEAN
+    (24) expr -> . STRING
+    (25) expr -> . NUMBER PLUS NUMBER
+    (26) expr -> . NUMBER MINUS NUMBER
+    (27) expr -> . NUMBER TIMES NUMBER
+    (28) expr -> . NUMBER DIVIDE NUMBER
+    (29) expr -> . LPAREN comp RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (31) c_channel -> . CHAN ID : ID , ID
+
+    ID              shift and go to state 13
+    NUMBER          shift and go to state 14
+    BOOLEAN         shift and go to state 15
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 17
+    CHAN            shift and go to state 18
+
+    expr                           shift and go to state 37
+    c_channel                      shift and go to state 12
+
+state 25
+
+    (11) stmt -> IF expr stmt . ELSE stmt
+    (4) stmt -> stmt .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 38
+
+  ! ELSE            [ reduce using rule 4 (stmt -> stmt .) ]
+
+
+state 26
+
+    (25) expr -> NUMBER PLUS . NUMBER
+
+    NUMBER          shift and go to state 39
+
+
+state 27
+
+    (26) expr -> NUMBER MINUS . NUMBER
+
+    NUMBER          shift and go to state 40
+
+
+state 28
+
+    (27) expr -> NUMBER TIMES . NUMBER
+
+    NUMBER          shift and go to state 41
+
+
+state 29
+
+    (28) expr -> NUMBER DIVIDE . NUMBER
+
+    NUMBER          shift and go to state 42
+
 
 state 30
 
-    (12) stmt -> WHILE LPAREN BOOLEAN RPAREN . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (29) expr -> LPAREN comp . RPAREN
+    (18) comp -> comp . AND comp
+    (19) comp -> comp . OR comp
 
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    RPAREN          shift and go to state 43
+    AND             shift and go to state 44
+    OR              shift and go to state 45
 
-    stmt                           shift and go to state 35
-    atribuicao                     shift and go to state 9
 
 state 31
 
-    (19) expr -> LPAREN expr . RPAREN
+    (30) expr -> LPAREN c_channel . RPAREN
 
-    RPAREN          shift and go to state 36
+    RPAREN          shift and go to state 46
 
 
 state 32
 
-    (20) expr -> LPAREN c_channel . RPAREN
-    (14) expr -> c_channel .
+    (14) comp -> NUMBER . LESSTHAN NUMBER
+    (15) comp -> NUMBER . GREATERTHAN NUMBER
+    (16) comp -> NUMBER . EQUAL NUMBER
+    (17) comp -> NUMBER . NOTEQUAL
 
-  ! shift/reduce conflict for RPAREN resolved as shift
-    RPAREN          shift and go to state 37
-
-  ! RPAREN          [ reduce using rule 14 (expr -> c_channel .) ]
+    LESSTHAN        shift and go to state 47
+    GREATERTHAN     shift and go to state 48
+    EQUAL           shift and go to state 49
+    NOTEQUAL        shift and go to state 50
 
 
 state 33
 
-    (21) c_channel -> CHAN ID . : ID , ID
+    (31) c_channel -> CHAN ID . : ID , ID
 
-    :               shift and go to state 38
+    :               shift and go to state 51
 
 
 state 34
 
-    (10) stmt -> IF LPAREN BOOLEAN RPAREN stmt .
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN stmt . ELSE stmt
+    (12) stmt -> WHILE expr stmt .
+    (4) stmt -> stmt .
 
-    IF              reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
-    WHILE           reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
-    ID              reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
-    $end            reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
-    ELSE            reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+  ! reduce/reduce conflict for IF resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for WHILE resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for SEQ resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for PAR resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ID resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for $end resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ELSE resolved using rule 4 (stmt -> stmt .)
+    IF              reduce using rule 4 (stmt -> stmt .)
+    WHILE           reduce using rule 4 (stmt -> stmt .)
+    SEQ             reduce using rule 4 (stmt -> stmt .)
+    PAR             reduce using rule 4 (stmt -> stmt .)
+    ID              reduce using rule 4 (stmt -> stmt .)
+    $end            reduce using rule 4 (stmt -> stmt .)
+    ELSE            reduce using rule 4 (stmt -> stmt .)
 
-  ! ELSE            [ shift and go to state 39 ]
+  ! $end            [ reduce using rule 12 (stmt -> WHILE expr stmt .) ]
+  ! IF              [ reduce using rule 12 (stmt -> WHILE expr stmt .) ]
+  ! WHILE           [ reduce using rule 12 (stmt -> WHILE expr stmt .) ]
+  ! SEQ             [ reduce using rule 12 (stmt -> WHILE expr stmt .) ]
+  ! PAR             [ reduce using rule 12 (stmt -> WHILE expr stmt .) ]
+  ! ID              [ reduce using rule 12 (stmt -> WHILE expr stmt .) ]
+  ! ELSE            [ reduce using rule 12 (stmt -> WHILE expr stmt .) ]
 
 
 state 35
 
-    (12) stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .
+    (6) stmts -> stmts stmt .
+    (4) stmt -> stmt .
 
-    IF              reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    WHILE           reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    ID              reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    $end            reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    ELSE            reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+  ! reduce/reduce conflict for IF resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for WHILE resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for SEQ resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for PAR resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ID resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for $end resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ELSE resolved using rule 4 (stmt -> stmt .)
+    IF              reduce using rule 4 (stmt -> stmt .)
+    WHILE           reduce using rule 4 (stmt -> stmt .)
+    SEQ             reduce using rule 4 (stmt -> stmt .)
+    PAR             reduce using rule 4 (stmt -> stmt .)
+    ID              reduce using rule 4 (stmt -> stmt .)
+    $end            reduce using rule 4 (stmt -> stmt .)
+    ELSE            reduce using rule 4 (stmt -> stmt .)
+
+  ! IF              [ reduce using rule 6 (stmts -> stmts stmt .) ]
+  ! WHILE           [ reduce using rule 6 (stmts -> stmts stmt .) ]
+  ! SEQ             [ reduce using rule 6 (stmts -> stmts stmt .) ]
+  ! PAR             [ reduce using rule 6 (stmts -> stmts stmt .) ]
+  ! ID              [ reduce using rule 6 (stmts -> stmts stmt .) ]
+  ! $end            [ reduce using rule 6 (stmts -> stmts stmt .) ]
+  ! ELSE            [ reduce using rule 6 (stmts -> stmts stmt .) ]
 
 
 state 36
 
-    (19) expr -> LPAREN expr RPAREN .
+    (13) atribuicao -> ID EQUAL expr .
 
-    IF              reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    WHILE           reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    ID              reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    $end            reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    ELSE            reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    RPAREN          reduce using rule 19 (expr -> LPAREN expr RPAREN .)
+    $end            reduce using rule 13 (atribuicao -> ID EQUAL expr .)
+    IF              reduce using rule 13 (atribuicao -> ID EQUAL expr .)
+    WHILE           reduce using rule 13 (atribuicao -> ID EQUAL expr .)
+    SEQ             reduce using rule 13 (atribuicao -> ID EQUAL expr .)
+    PAR             reduce using rule 13 (atribuicao -> ID EQUAL expr .)
+    ID              reduce using rule 13 (atribuicao -> ID EQUAL expr .)
+    ELSE            reduce using rule 13 (atribuicao -> ID EQUAL expr .)
 
 
 state 37
 
-    (20) expr -> LPAREN c_channel RPAREN .
+    (10) stmt -> IF expr LCURLY expr . RCURLY
 
-    IF              reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    WHILE           reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    ID              reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    $end            reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    ELSE            reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    RPAREN          reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
+    RCURLY          shift and go to state 52
 
 
 state 38
 
-    (21) c_channel -> CHAN ID : . ID , ID
+    (11) stmt -> IF expr stmt ELSE . stmt
+    (2) stmt -> . bloco_SEQ
+    (3) stmt -> . bloco_PAR
+    (4) stmt -> . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . IF expr LCURLY expr RCURLY
+    (11) stmt -> . IF expr stmt ELSE stmt
+    (12) stmt -> . WHILE expr stmt
+    (7) bloco_SEQ -> . SEQ stmts
+    (8) bloco_PAR -> . PAR stmts
+    (13) atribuicao -> . ID EQUAL expr
 
-    ID              shift and go to state 40
+    IF              shift and go to state 6
+    WHILE           shift and go to state 7
+    SEQ             shift and go to state 8
+    PAR             shift and go to state 9
+    ID              shift and go to state 10
 
+    stmt                           shift and go to state 53
+    bloco_SEQ                      shift and go to state 3
+    bloco_PAR                      shift and go to state 4
+    atribuicao                     shift and go to state 5
 
 state 39
 
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (25) expr -> NUMBER PLUS NUMBER .
 
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    LCURLY          reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    IF              reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    WHILE           reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    SEQ             reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    PAR             reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    ID              reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    $end            reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    ELSE            reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
+    RCURLY          reduce using rule 25 (expr -> NUMBER PLUS NUMBER .)
 
-    stmt                           shift and go to state 41
-    atribuicao                     shift and go to state 9
 
 state 40
 
-    (21) c_channel -> CHAN ID : ID . , ID
+    (26) expr -> NUMBER MINUS NUMBER .
 
-    ,               shift and go to state 42
+    LCURLY          reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    IF              reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    WHILE           reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    SEQ             reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    PAR             reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    ID              reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    $end            reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    ELSE            reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
+    RCURLY          reduce using rule 26 (expr -> NUMBER MINUS NUMBER .)
 
 
 state 41
 
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .
+    (27) expr -> NUMBER TIMES NUMBER .
 
-    IF              reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    WHILE           reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    ID              reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    $end            reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    ELSE            reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
+    LCURLY          reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    IF              reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    WHILE           reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    SEQ             reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    PAR             reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    ID              reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    $end            reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    ELSE            reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
+    RCURLY          reduce using rule 27 (expr -> NUMBER TIMES NUMBER .)
 
 
 state 42
 
-    (21) c_channel -> CHAN ID : ID , . ID
+    (28) expr -> NUMBER DIVIDE NUMBER .
 
-    ID              shift and go to state 43
+    LCURLY          reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    IF              reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    WHILE           reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    SEQ             reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    PAR             reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    ID              reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    $end            reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    ELSE            reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
+    RCURLY          reduce using rule 28 (expr -> NUMBER DIVIDE NUMBER .)
 
 
 state 43
 
-    (21) c_channel -> CHAN ID : ID , ID .
+    (29) expr -> LPAREN comp RPAREN .
 
-    IF              reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    WHILE           reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    ID              reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    $end            reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    ELSE            reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    RPAREN          reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
+    LCURLY          reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    IF              reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    WHILE           reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    SEQ             reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    PAR             reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    ID              reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    $end            reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    ELSE            reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+    RCURLY          reduce using rule 29 (expr -> LPAREN comp RPAREN .)
+
+
+state 44
+
+    (18) comp -> comp AND . comp
+    (14) comp -> . NUMBER LESSTHAN NUMBER
+    (15) comp -> . NUMBER GREATERTHAN NUMBER
+    (16) comp -> . NUMBER EQUAL NUMBER
+    (17) comp -> . NUMBER NOTEQUAL
+    (18) comp -> . comp AND comp
+    (19) comp -> . comp OR comp
+
+    NUMBER          shift and go to state 32
+
+    comp                           shift and go to state 54
+
+state 45
+
+    (19) comp -> comp OR . comp
+    (14) comp -> . NUMBER LESSTHAN NUMBER
+    (15) comp -> . NUMBER GREATERTHAN NUMBER
+    (16) comp -> . NUMBER EQUAL NUMBER
+    (17) comp -> . NUMBER NOTEQUAL
+    (18) comp -> . comp AND comp
+    (19) comp -> . comp OR comp
+
+    NUMBER          shift and go to state 32
+
+    comp                           shift and go to state 55
+
+state 46
+
+    (30) expr -> LPAREN c_channel RPAREN .
+
+    LCURLY          reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    IF              reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    WHILE           reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    SEQ             reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    PAR             reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    ID              reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    $end            reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    ELSE            reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    RCURLY          reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+
+
+state 47
+
+    (14) comp -> NUMBER LESSTHAN . NUMBER
+
+    NUMBER          shift and go to state 56
+
+
+state 48
+
+    (15) comp -> NUMBER GREATERTHAN . NUMBER
+
+    NUMBER          shift and go to state 57
+
+
+state 49
+
+    (16) comp -> NUMBER EQUAL . NUMBER
+
+    NUMBER          shift and go to state 58
+
+
+state 50
+
+    (17) comp -> NUMBER NOTEQUAL .
+
+    RPAREN          reduce using rule 17 (comp -> NUMBER NOTEQUAL .)
+    AND             reduce using rule 17 (comp -> NUMBER NOTEQUAL .)
+    OR              reduce using rule 17 (comp -> NUMBER NOTEQUAL .)
+
+
+state 51
+
+    (31) c_channel -> CHAN ID : . ID , ID
+
+    ID              shift and go to state 59
+
+
+state 52
+
+    (10) stmt -> IF expr LCURLY expr RCURLY .
+
+    $end            reduce using rule 10 (stmt -> IF expr LCURLY expr RCURLY .)
+    IF              reduce using rule 10 (stmt -> IF expr LCURLY expr RCURLY .)
+    WHILE           reduce using rule 10 (stmt -> IF expr LCURLY expr RCURLY .)
+    SEQ             reduce using rule 10 (stmt -> IF expr LCURLY expr RCURLY .)
+    PAR             reduce using rule 10 (stmt -> IF expr LCURLY expr RCURLY .)
+    ID              reduce using rule 10 (stmt -> IF expr LCURLY expr RCURLY .)
+    ELSE            reduce using rule 10 (stmt -> IF expr LCURLY expr RCURLY .)
+
+
+state 53
+
+    (11) stmt -> IF expr stmt ELSE stmt .
+    (4) stmt -> stmt .
+
+  ! reduce/reduce conflict for IF resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for WHILE resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for SEQ resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for PAR resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ID resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for $end resolved using rule 4 (stmt -> stmt .)
+  ! reduce/reduce conflict for ELSE resolved using rule 4 (stmt -> stmt .)
+    IF              reduce using rule 4 (stmt -> stmt .)
+    WHILE           reduce using rule 4 (stmt -> stmt .)
+    SEQ             reduce using rule 4 (stmt -> stmt .)
+    PAR             reduce using rule 4 (stmt -> stmt .)
+    ID              reduce using rule 4 (stmt -> stmt .)
+    $end            reduce using rule 4 (stmt -> stmt .)
+    ELSE            reduce using rule 4 (stmt -> stmt .)
+
+  ! $end            [ reduce using rule 11 (stmt -> IF expr stmt ELSE stmt .) ]
+  ! IF              [ reduce using rule 11 (stmt -> IF expr stmt ELSE stmt .) ]
+  ! WHILE           [ reduce using rule 11 (stmt -> IF expr stmt ELSE stmt .) ]
+  ! SEQ             [ reduce using rule 11 (stmt -> IF expr stmt ELSE stmt .) ]
+  ! PAR             [ reduce using rule 11 (stmt -> IF expr stmt ELSE stmt .) ]
+  ! ID              [ reduce using rule 11 (stmt -> IF expr stmt ELSE stmt .) ]
+  ! ELSE            [ reduce using rule 11 (stmt -> IF expr stmt ELSE stmt .) ]
+
+
+state 54
+
+    (18) comp -> comp AND comp .
+    (18) comp -> comp . AND comp
+    (19) comp -> comp . OR comp
+
+    RPAREN          reduce using rule 18 (comp -> comp AND comp .)
+    AND             reduce using rule 18 (comp -> comp AND comp .)
+    OR              reduce using rule 18 (comp -> comp AND comp .)
+
+  ! AND             [ shift and go to state 44 ]
+  ! OR              [ shift and go to state 45 ]
+
+
+state 55
+
+    (19) comp -> comp OR comp .
+    (18) comp -> comp . AND comp
+    (19) comp -> comp . OR comp
+
+    RPAREN          reduce using rule 19 (comp -> comp OR comp .)
+    AND             reduce using rule 19 (comp -> comp OR comp .)
+    OR              reduce using rule 19 (comp -> comp OR comp .)
+
+  ! AND             [ shift and go to state 44 ]
+  ! OR              [ shift and go to state 45 ]
+
+
+state 56
+
+    (14) comp -> NUMBER LESSTHAN NUMBER .
+
+    RPAREN          reduce using rule 14 (comp -> NUMBER LESSTHAN NUMBER .)
+    AND             reduce using rule 14 (comp -> NUMBER LESSTHAN NUMBER .)
+    OR              reduce using rule 14 (comp -> NUMBER LESSTHAN NUMBER .)
+
+
+state 57
+
+    (15) comp -> NUMBER GREATERTHAN NUMBER .
+
+    RPAREN          reduce using rule 15 (comp -> NUMBER GREATERTHAN NUMBER .)
+    AND             reduce using rule 15 (comp -> NUMBER GREATERTHAN NUMBER .)
+    OR              reduce using rule 15 (comp -> NUMBER GREATERTHAN NUMBER .)
+
+
+state 58
+
+    (16) comp -> NUMBER EQUAL NUMBER .
+
+    RPAREN          reduce using rule 16 (comp -> NUMBER EQUAL NUMBER .)
+    AND             reduce using rule 16 (comp -> NUMBER EQUAL NUMBER .)
+    OR              reduce using rule 16 (comp -> NUMBER EQUAL NUMBER .)
+
+
+state 59
+
+    (31) c_channel -> CHAN ID : ID . , ID
+
+    ,               shift and go to state 60
+
+
+state 60
+
+    (31) c_channel -> CHAN ID : ID , . ID
+
+    ID              shift and go to state 61
+
+
+state 61
+
+    (31) c_channel -> CHAN ID : ID , ID .
+
+    LCURLY          reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    IF              reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    WHILE           reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    SEQ             reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    PAR             reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    ID              reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    RPAREN          reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    $end            reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    ELSE            reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
+    RCURLY          reduce using rule 31 (c_channel -> CHAN ID : ID , ID .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for RPAREN in state 32 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 25 resolved as shift
+WARNING: reduce/reduce conflict in state 2 resolved using rule (programa_minipar -> stmt)
+WARNING: rejected rule (stmt -> stmt) in state 2
+WARNING: reduce/reduce conflict in state 21 resolved using rule (stmt -> stmt)
+WARNING: rejected rule (stmts -> stmt) in state 21
+WARNING: reduce/reduce conflict in state 34 resolved using rule (stmt -> stmt)
+WARNING: rejected rule (stmt -> WHILE expr stmt) in state 34
+WARNING: reduce/reduce conflict in state 35 resolved using rule (stmt -> stmt)
+WARNING: rejected rule (stmts -> stmts stmt) in state 35
+WARNING: reduce/reduce conflict in state 53 resolved using rule (stmt -> stmt)
+WARNING: rejected rule (stmt -> IF expr stmt ELSE stmt) in state 53
+WARNING: Rule (stmts -> stmt) is never reduced
+WARNING: Rule (stmt -> WHILE expr stmt) is never reduced
+WARNING: Rule (stmts -> stmts stmt) is never reduced
+WARNING: Rule (stmt -> IF expr stmt ELSE stmt) is never reduced
