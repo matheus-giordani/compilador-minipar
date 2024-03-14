@@ -1,4 +1,5 @@
 import ply.lex as lex
+from ply.lex import TOKEN
 
 saidas = []
 
@@ -49,6 +50,9 @@ t_CHAN = r'CHAN'
 # Ignorar espaços em branco e tabulações
 t_ignore = ' \t'
 
+identifier = r'[a-zA-Z_][a-zA-Z_0-9]*'
+
+
 # Tratamento de números inteiros
 def t_NUMBER(t):
     r'\d+'
@@ -67,14 +71,14 @@ def t_ERR_STRING(t):
      
 
 # Tratamento de booleanos
-def t_BOOLEAN(t):
+def t_BOOLEAN(t): #Fazer o boleano identificar expressões como true ou false
     r'True|False'
     t.type = 'BOOLEAN'
     return t
 
 # Tratamento de identificadores
+@TOKEN(identifier)
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ID')  # Check for reserved words
     return t
 
