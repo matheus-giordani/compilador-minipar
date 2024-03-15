@@ -20,17 +20,15 @@ reserved = {
     'CHAN': 'CHAN'
 }
 # Lista de tokens
-tokens = ['ID', 'EQUAL', 'LPAREN', 'RPAREN','NUMBER',
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 
-    'LESSTHAN', 'GREATERTHAN', 'NOTEQUAL',"STRING", 'BOOLEAN',  'ASPAS', 'ERR_STRING', 'COMMENT'
+tokens = ['ID', 'EQUAL', 'LPAREN', 'RPAREN','NUMBER','ASSIGN',
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE','LBRACE', 'RBRACE' ,
+    'LESSTHAN', 'GREATERTHAN','GREATEROREQUAL', 'LESSTHANOREQUAL' , 'NOTEQUAL',"STRING", 'BOOLEAN',  'ASPAS', 'ERR_STRING', 'COMMENT'
 ] + list(reserved.values()) # Adiciona as palavras reservadas na lista de tokens
 
 # Expressões regulares para tokens simples
-t_IF = r'if'
 t_COMMENT = r'\#.*'
-t_ELSE = r'else'
-t_WHILE = r'while'
-t_EQUAL = r'='
+t_EQUAL = r'=='
+t_ASSIGN = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_PLUS = r'\+'
@@ -40,12 +38,14 @@ t_DIVIDE = r'/'
 t_LESSTHAN = r'<'
 t_GREATERTHAN = r'>'
 t_NOTEQUAL = r'!='
-t_AND = r'and'
-t_OR = r'or'
+t_GREATEROREQUAL = r'>='
+t_LESSTHANOREQUAL = r'<='
+
+
 t_ASPAS = r'\"'
-t_SEQ = r'SEQ'
-t_PAR = r'PAR'
-t_CHAN = r'CHAN'
+t_LBRACE = r'{'
+t_RBRACE = r'}'
+
 
 # Ignorar espaços em branco e tabulações
 t_ignore = ' \t'

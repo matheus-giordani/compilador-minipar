@@ -16,6 +16,7 @@ precedence = (
 # Definindo as regras de produção
 def p_programa_minipar(p):
     'programa_minipar : bloco_stmt'
+    p[0] = p[1]
 
 def p_bloco_stmt(p):
      '''bloco_stmt : bloco_SEQ
@@ -39,12 +40,18 @@ def p_stmt_comparacao(p):
     'stmt : comparacao'
     
 def p_stmt_if(p):
-    '''stmt : IF LPAREN BOOLEAN RPAREN stmt %prec IF
-            | IF LPAREN comparacao RPAREN stmt %prec IF'''
+    '''stmt : IF LPAREN BOOLEAN RPAREN LBRACE stmt RBRACE %prec IF
+            | IF LPAREN comparacao RPAREN LBRACE stmt RBRACE %prec IF'''
+    if(p[3]):
+        p[6]
+    
+
 
 def p_stmt_if_else(p):
-    '''stmt : IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    '''stmt : IF LPAREN BOOLEAN RPAREN LBRACE single_stmt RBRACE ELSE LBRACE single_stmt RBRACE
             | IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt'''
+    if(p[3]):
+        p[6]
 
 def p_single_stmt(p):
     '''single_stmt : atribuicao
@@ -55,12 +62,20 @@ def p_stmt_while(p):
             | WHILE LPAREN comparacao RPAREN stmt %prec WHILE'''
 
 def p_atribuicao(p):
-    'atribuicao : ID EQUAL expr'
+    'atribuicao : ID ASSIGN expr'
+    p[0] = p[1] = p[3]
 
-def p_comparacao(p):
+def p_comparacao(t):
     '''comparacao : expr LESSTHAN expr
                   | expr GREATERTHAN expr
-                  | expr NOTEQUAL expr'''
+                  | expr NOTEQUAL expr
+                  | expr GREATEROREQUAL expr
+                  | expr LESSTHANOREQUAL expr
+                  | expr EQUAL expr
+                  '''
+    if()
+    if t[2] == '>'  : t[0] = t[1] > t[3]
+    elif t[2] == '<': t[0] = t[1] < t[3]
     
 def p_expr(p):
     '''expr : c_channel
@@ -71,6 +86,12 @@ def p_expr(p):
             | STRING
             | LPAREN expr RPAREN
             | LPAREN c_channel RPAREN'''  # Adiciona a opção para c_channel dentro de LPAREN/RPAREN
+    if(len(p)==2):
+        p[0] = p[1]
+        return
+    if(len(p)==3):
+        p[0] = p[2]
+        
     
 def p_operacao(p):
     '''operacao : expr PLUS expr
@@ -97,19 +118,21 @@ parser = yacc.yacc()
 entrada = '''
 PAR
     teste = 0
-    while ( teste < 5 )
+    if ( teste < 5 ){
+        
         teste = teste + 1
+    }
 '''
 
 # Codigo teste
-'''
-PAR
-    if ( True )
-        teste = 2
-    else
-        teste2 = 4
+# '''
+# PAR
+#     if ( True )
+#         teste = 2
+#     else
+#         teste2 = 4
     
-'''
+# '''
 
 t = "r"
 
