@@ -2,19 +2,10 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    AND
     ASPAS
     COMMENT
-    DIVIDE
     ERR_STRING
     FALSE
-    GREATERTHAN
-    LESSTHAN
-    MINUS
-    NOTEQUAL
-    OR
-    PLUS
-    TIMES
     TRUE
 
 Grammar
@@ -29,62 +20,81 @@ Rule 6     bloco_PAR -> PAR stmts
 Rule 7     stmts -> stmt
 Rule 8     stmts -> stmts stmt
 Rule 9     stmt -> atribuicao
-Rule 10    stmt -> IF LPAREN BOOLEAN RPAREN expr
-Rule 11    stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-Rule 12    stmt -> WHILE LPAREN BOOLEAN RPAREN stmt
-Rule 13    atribuicao -> ID EQUAL expr
-Rule 14    expr -> c_channel
-Rule 15    expr -> ID
-Rule 16    expr -> NUMBER
-Rule 17    expr -> BOOLEAN
-Rule 18    expr -> STRING
-Rule 19    expr -> LPAREN expr RPAREN
-Rule 20    expr -> LPAREN c_channel RPAREN
-Rule 21    c_channel -> CHAN ID : ID , ID
+Rule 10    stmt -> comparacao
+Rule 11    stmt -> IF LPAREN BOOLEAN RPAREN stmt
+Rule 12    stmt -> IF LPAREN comparacao RPAREN stmt
+Rule 13    stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+Rule 14    stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+Rule 15    single_stmt -> atribuicao
+Rule 16    single_stmt -> comparacao
+Rule 17    stmt -> WHILE LPAREN BOOLEAN RPAREN stmt
+Rule 18    stmt -> WHILE LPAREN comparacao RPAREN stmt
+Rule 19    atribuicao -> ID EQUAL expr
+Rule 20    comparacao -> expr LESSTHAN expr
+Rule 21    comparacao -> expr GREATERTHAN expr
+Rule 22    comparacao -> expr NOTEQUAL expr
+Rule 23    expr -> c_channel
+Rule 24    expr -> ID
+Rule 25    expr -> NUMBER
+Rule 26    expr -> operacao
+Rule 27    expr -> BOOLEAN
+Rule 28    expr -> STRING
+Rule 29    expr -> LPAREN expr RPAREN
+Rule 30    expr -> LPAREN c_channel RPAREN
+Rule 31    operacao -> expr PLUS expr
+Rule 32    operacao -> expr MINUS expr
+Rule 33    operacao -> expr TIMES expr
+Rule 34    operacao -> expr DIVIDE expr
+Rule 35    operacao -> expr AND expr
+Rule 36    operacao -> expr OR expr
+Rule 37    c_channel -> CHAN ID : ID , ID
 
 Terminals, with rules where they appear
 
-,                    : 21
-:                    : 21
-AND                  : 
+,                    : 37
+:                    : 37
+AND                  : 35
 ASPAS                : 
-BOOLEAN              : 10 11 12 17
-CHAN                 : 21
+BOOLEAN              : 11 13 17 27
+CHAN                 : 37
 COMMENT              : 
-DIVIDE               : 
-ELSE                 : 11
-EQUAL                : 13
+DIVIDE               : 34
+ELSE                 : 13 14
+EQUAL                : 19
 ERR_STRING           : 
 FALSE                : 
-GREATERTHAN          : 
-ID                   : 13 15 21 21 21
-IF                   : 10 11
-LESSTHAN             : 
-LPAREN               : 10 11 12 19 20
-MINUS                : 
-NOTEQUAL             : 
-NUMBER               : 16
-OR                   : 
+GREATERTHAN          : 21
+ID                   : 19 24 37 37 37
+IF                   : 11 12 13 14
+LESSTHAN             : 20
+LPAREN               : 11 12 13 14 17 18 29 30
+MINUS                : 32
+NOTEQUAL             : 22
+NUMBER               : 25
+OR                   : 36
 PAR                  : 6
-PLUS                 : 
-RPAREN               : 10 11 12 19 20
+PLUS                 : 31
+RPAREN               : 11 12 13 14 17 18 29 30
 SEQ                  : 5
-STRING               : 18
-TIMES                : 
+STRING               : 28
+TIMES                : 33
 TRUE                 : 
-WHILE                : 12
+WHILE                : 17 18
 error                : 
 
 Nonterminals, with rules where they appear
 
-atribuicao           : 9
+atribuicao           : 9 15
 bloco_PAR            : 3
 bloco_SEQ            : 2
 bloco_stmt           : 1
-c_channel            : 14 20
-expr                 : 10 13 19
+c_channel            : 23 30
+comparacao           : 10 12 14 16 18
+expr                 : 19 20 20 21 21 22 22 29 31 31 32 32 33 33 34 34 35 35 36 36
+operacao             : 26
 programa_minipar     : 0
-stmt                 : 7 8 11 11 12
+single_stmt          : 13 13 14 14
+stmt                 : 7 8 11 12 17 18
 stmts                : 4 5 6 8
 
 Parsing method: LALR
@@ -101,16 +111,43 @@ state 0
     (7) stmts -> . stmt
     (8) stmts -> . stmts stmt
     (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
     SEQ             shift and go to state 6
     PAR             shift and go to state 7
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
     programa_minipar               shift and go to state 1
     bloco_stmt                     shift and go to state 2
@@ -119,6 +156,10 @@ state 0
     stmts                          shift and go to state 5
     stmt                           shift and go to state 8
     atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 10
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 1
 
@@ -152,18 +193,49 @@ state 5
     (4) bloco_stmt -> stmts .
     (8) stmts -> stmts . stmt
     (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
     $end            reduce using rule 4 (bloco_stmt -> stmts .)
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
-    stmt                           shift and go to state 13
+    stmt                           shift and go to state 22
     atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 10
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 6
 
@@ -171,18 +243,49 @@ state 6
     (7) stmts -> . stmt
     (8) stmts -> . stmts stmt
     (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
-    stmts                          shift and go to state 14
+    stmts                          shift and go to state 23
     stmt                           shift and go to state 8
     atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 10
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 7
 
@@ -190,18 +293,49 @@ state 7
     (7) stmts -> . stmt
     (8) stmts -> . stmts stmt
     (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
-    stmts                          shift and go to state 15
+    stmts                          shift and go to state 24
     stmt                           shift and go to state 8
     atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 10
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 8
 
@@ -210,6 +344,11 @@ state 8
     IF              reduce using rule 7 (stmts -> stmt .)
     WHILE           reduce using rule 7 (stmts -> stmt .)
     ID              reduce using rule 7 (stmts -> stmt .)
+    NUMBER          reduce using rule 7 (stmts -> stmt .)
+    BOOLEAN         reduce using rule 7 (stmts -> stmt .)
+    STRING          reduce using rule 7 (stmts -> stmt .)
+    LPAREN          reduce using rule 7 (stmts -> stmt .)
+    CHAN            reduce using rule 7 (stmts -> stmt .)
     $end            reduce using rule 7 (stmts -> stmt .)
 
 
@@ -220,429 +359,1749 @@ state 9
     IF              reduce using rule 9 (stmt -> atribuicao .)
     WHILE           reduce using rule 9 (stmt -> atribuicao .)
     ID              reduce using rule 9 (stmt -> atribuicao .)
+    NUMBER          reduce using rule 9 (stmt -> atribuicao .)
+    BOOLEAN         reduce using rule 9 (stmt -> atribuicao .)
+    STRING          reduce using rule 9 (stmt -> atribuicao .)
+    LPAREN          reduce using rule 9 (stmt -> atribuicao .)
+    CHAN            reduce using rule 9 (stmt -> atribuicao .)
     $end            reduce using rule 9 (stmt -> atribuicao .)
-    ELSE            reduce using rule 9 (stmt -> atribuicao .)
 
 
 state 10
 
-    (10) stmt -> IF . LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> IF . LPAREN BOOLEAN RPAREN stmt ELSE stmt
+    (10) stmt -> comparacao .
 
-    LPAREN          shift and go to state 16
+    IF              reduce using rule 10 (stmt -> comparacao .)
+    WHILE           reduce using rule 10 (stmt -> comparacao .)
+    ID              reduce using rule 10 (stmt -> comparacao .)
+    NUMBER          reduce using rule 10 (stmt -> comparacao .)
+    BOOLEAN         reduce using rule 10 (stmt -> comparacao .)
+    STRING          reduce using rule 10 (stmt -> comparacao .)
+    LPAREN          reduce using rule 10 (stmt -> comparacao .)
+    CHAN            reduce using rule 10 (stmt -> comparacao .)
+    $end            reduce using rule 10 (stmt -> comparacao .)
 
 
 state 11
 
-    (12) stmt -> WHILE . LPAREN BOOLEAN RPAREN stmt
+    (11) stmt -> IF . LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> IF . LPAREN comparacao RPAREN stmt
+    (13) stmt -> IF . LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> IF . LPAREN comparacao RPAREN single_stmt ELSE single_stmt
 
-    LPAREN          shift and go to state 17
+    LPAREN          shift and go to state 25
 
 
 state 12
 
-    (13) atribuicao -> ID . EQUAL expr
+    (29) expr -> LPAREN . expr RPAREN
+    (30) expr -> LPAREN . c_channel RPAREN
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    EQUAL           shift and go to state 18
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 26
+    c_channel                      shift and go to state 27
+    operacao                       shift and go to state 19
 
 state 13
+
+    (27) expr -> BOOLEAN .
+
+    LESSTHAN        reduce using rule 27 (expr -> BOOLEAN .)
+    GREATERTHAN     reduce using rule 27 (expr -> BOOLEAN .)
+    NOTEQUAL        reduce using rule 27 (expr -> BOOLEAN .)
+    PLUS            reduce using rule 27 (expr -> BOOLEAN .)
+    MINUS           reduce using rule 27 (expr -> BOOLEAN .)
+    TIMES           reduce using rule 27 (expr -> BOOLEAN .)
+    DIVIDE          reduce using rule 27 (expr -> BOOLEAN .)
+    AND             reduce using rule 27 (expr -> BOOLEAN .)
+    OR              reduce using rule 27 (expr -> BOOLEAN .)
+    RPAREN          reduce using rule 27 (expr -> BOOLEAN .)
+    IF              reduce using rule 27 (expr -> BOOLEAN .)
+    WHILE           reduce using rule 27 (expr -> BOOLEAN .)
+    ID              reduce using rule 27 (expr -> BOOLEAN .)
+    NUMBER          reduce using rule 27 (expr -> BOOLEAN .)
+    BOOLEAN         reduce using rule 27 (expr -> BOOLEAN .)
+    STRING          reduce using rule 27 (expr -> BOOLEAN .)
+    LPAREN          reduce using rule 27 (expr -> BOOLEAN .)
+    CHAN            reduce using rule 27 (expr -> BOOLEAN .)
+    $end            reduce using rule 27 (expr -> BOOLEAN .)
+    ELSE            reduce using rule 27 (expr -> BOOLEAN .)
+
+
+state 14
+
+    (17) stmt -> WHILE . LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> WHILE . LPAREN comparacao RPAREN stmt
+
+    LPAREN          shift and go to state 29
+
+
+state 15
+
+    (19) atribuicao -> ID . EQUAL expr
+    (24) expr -> ID .
+
+    EQUAL           shift and go to state 30
+    LESSTHAN        reduce using rule 24 (expr -> ID .)
+    GREATERTHAN     reduce using rule 24 (expr -> ID .)
+    NOTEQUAL        reduce using rule 24 (expr -> ID .)
+    PLUS            reduce using rule 24 (expr -> ID .)
+    MINUS           reduce using rule 24 (expr -> ID .)
+    TIMES           reduce using rule 24 (expr -> ID .)
+    DIVIDE          reduce using rule 24 (expr -> ID .)
+    AND             reduce using rule 24 (expr -> ID .)
+    OR              reduce using rule 24 (expr -> ID .)
+
+
+state 16
+
+    (20) comparacao -> expr . LESSTHAN expr
+    (21) comparacao -> expr . GREATERTHAN expr
+    (22) comparacao -> expr . NOTEQUAL expr
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    LESSTHAN        shift and go to state 31
+    GREATERTHAN     shift and go to state 32
+    NOTEQUAL        shift and go to state 33
+    PLUS            shift and go to state 34
+    MINUS           shift and go to state 35
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+
+state 17
+
+    (23) expr -> c_channel .
+
+    LESSTHAN        reduce using rule 23 (expr -> c_channel .)
+    GREATERTHAN     reduce using rule 23 (expr -> c_channel .)
+    NOTEQUAL        reduce using rule 23 (expr -> c_channel .)
+    PLUS            reduce using rule 23 (expr -> c_channel .)
+    MINUS           reduce using rule 23 (expr -> c_channel .)
+    TIMES           reduce using rule 23 (expr -> c_channel .)
+    DIVIDE          reduce using rule 23 (expr -> c_channel .)
+    AND             reduce using rule 23 (expr -> c_channel .)
+    OR              reduce using rule 23 (expr -> c_channel .)
+    IF              reduce using rule 23 (expr -> c_channel .)
+    WHILE           reduce using rule 23 (expr -> c_channel .)
+    ID              reduce using rule 23 (expr -> c_channel .)
+    NUMBER          reduce using rule 23 (expr -> c_channel .)
+    BOOLEAN         reduce using rule 23 (expr -> c_channel .)
+    STRING          reduce using rule 23 (expr -> c_channel .)
+    LPAREN          reduce using rule 23 (expr -> c_channel .)
+    CHAN            reduce using rule 23 (expr -> c_channel .)
+    $end            reduce using rule 23 (expr -> c_channel .)
+    ELSE            reduce using rule 23 (expr -> c_channel .)
+    RPAREN          reduce using rule 23 (expr -> c_channel .)
+
+
+state 18
+
+    (25) expr -> NUMBER .
+
+    LESSTHAN        reduce using rule 25 (expr -> NUMBER .)
+    GREATERTHAN     reduce using rule 25 (expr -> NUMBER .)
+    NOTEQUAL        reduce using rule 25 (expr -> NUMBER .)
+    PLUS            reduce using rule 25 (expr -> NUMBER .)
+    MINUS           reduce using rule 25 (expr -> NUMBER .)
+    TIMES           reduce using rule 25 (expr -> NUMBER .)
+    DIVIDE          reduce using rule 25 (expr -> NUMBER .)
+    AND             reduce using rule 25 (expr -> NUMBER .)
+    OR              reduce using rule 25 (expr -> NUMBER .)
+    RPAREN          reduce using rule 25 (expr -> NUMBER .)
+    IF              reduce using rule 25 (expr -> NUMBER .)
+    WHILE           reduce using rule 25 (expr -> NUMBER .)
+    ID              reduce using rule 25 (expr -> NUMBER .)
+    NUMBER          reduce using rule 25 (expr -> NUMBER .)
+    BOOLEAN         reduce using rule 25 (expr -> NUMBER .)
+    STRING          reduce using rule 25 (expr -> NUMBER .)
+    LPAREN          reduce using rule 25 (expr -> NUMBER .)
+    CHAN            reduce using rule 25 (expr -> NUMBER .)
+    $end            reduce using rule 25 (expr -> NUMBER .)
+    ELSE            reduce using rule 25 (expr -> NUMBER .)
+
+
+state 19
+
+    (26) expr -> operacao .
+
+    LESSTHAN        reduce using rule 26 (expr -> operacao .)
+    GREATERTHAN     reduce using rule 26 (expr -> operacao .)
+    NOTEQUAL        reduce using rule 26 (expr -> operacao .)
+    PLUS            reduce using rule 26 (expr -> operacao .)
+    MINUS           reduce using rule 26 (expr -> operacao .)
+    TIMES           reduce using rule 26 (expr -> operacao .)
+    DIVIDE          reduce using rule 26 (expr -> operacao .)
+    AND             reduce using rule 26 (expr -> operacao .)
+    OR              reduce using rule 26 (expr -> operacao .)
+    RPAREN          reduce using rule 26 (expr -> operacao .)
+    IF              reduce using rule 26 (expr -> operacao .)
+    WHILE           reduce using rule 26 (expr -> operacao .)
+    ID              reduce using rule 26 (expr -> operacao .)
+    NUMBER          reduce using rule 26 (expr -> operacao .)
+    BOOLEAN         reduce using rule 26 (expr -> operacao .)
+    STRING          reduce using rule 26 (expr -> operacao .)
+    LPAREN          reduce using rule 26 (expr -> operacao .)
+    CHAN            reduce using rule 26 (expr -> operacao .)
+    $end            reduce using rule 26 (expr -> operacao .)
+    ELSE            reduce using rule 26 (expr -> operacao .)
+
+
+state 20
+
+    (28) expr -> STRING .
+
+    LESSTHAN        reduce using rule 28 (expr -> STRING .)
+    GREATERTHAN     reduce using rule 28 (expr -> STRING .)
+    NOTEQUAL        reduce using rule 28 (expr -> STRING .)
+    PLUS            reduce using rule 28 (expr -> STRING .)
+    MINUS           reduce using rule 28 (expr -> STRING .)
+    TIMES           reduce using rule 28 (expr -> STRING .)
+    DIVIDE          reduce using rule 28 (expr -> STRING .)
+    AND             reduce using rule 28 (expr -> STRING .)
+    OR              reduce using rule 28 (expr -> STRING .)
+    RPAREN          reduce using rule 28 (expr -> STRING .)
+    IF              reduce using rule 28 (expr -> STRING .)
+    WHILE           reduce using rule 28 (expr -> STRING .)
+    ID              reduce using rule 28 (expr -> STRING .)
+    NUMBER          reduce using rule 28 (expr -> STRING .)
+    BOOLEAN         reduce using rule 28 (expr -> STRING .)
+    STRING          reduce using rule 28 (expr -> STRING .)
+    LPAREN          reduce using rule 28 (expr -> STRING .)
+    CHAN            reduce using rule 28 (expr -> STRING .)
+    $end            reduce using rule 28 (expr -> STRING .)
+    ELSE            reduce using rule 28 (expr -> STRING .)
+
+
+state 21
+
+    (37) c_channel -> CHAN . ID : ID , ID
+
+    ID              shift and go to state 40
+
+
+state 22
 
     (8) stmts -> stmts stmt .
 
     IF              reduce using rule 8 (stmts -> stmts stmt .)
     WHILE           reduce using rule 8 (stmts -> stmts stmt .)
     ID              reduce using rule 8 (stmts -> stmts stmt .)
+    NUMBER          reduce using rule 8 (stmts -> stmts stmt .)
+    BOOLEAN         reduce using rule 8 (stmts -> stmts stmt .)
+    STRING          reduce using rule 8 (stmts -> stmts stmt .)
+    LPAREN          reduce using rule 8 (stmts -> stmts stmt .)
+    CHAN            reduce using rule 8 (stmts -> stmts stmt .)
     $end            reduce using rule 8 (stmts -> stmts stmt .)
-
-
-state 14
-
-    (5) bloco_SEQ -> SEQ stmts .
-    (8) stmts -> stmts . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
-
-    $end            reduce using rule 5 (bloco_SEQ -> SEQ stmts .)
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
-
-    stmt                           shift and go to state 13
-    atribuicao                     shift and go to state 9
-
-state 15
-
-    (6) bloco_PAR -> PAR stmts .
-    (8) stmts -> stmts . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
-
-    $end            reduce using rule 6 (bloco_PAR -> PAR stmts .)
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
-
-    stmt                           shift and go to state 13
-    atribuicao                     shift and go to state 9
-
-state 16
-
-    (10) stmt -> IF LPAREN . BOOLEAN RPAREN expr
-    (11) stmt -> IF LPAREN . BOOLEAN RPAREN stmt ELSE stmt
-
-    BOOLEAN         shift and go to state 19
-
-
-state 17
-
-    (12) stmt -> WHILE LPAREN . BOOLEAN RPAREN stmt
-
-    BOOLEAN         shift and go to state 20
-
-
-state 18
-
-    (13) atribuicao -> ID EQUAL . expr
-    (14) expr -> . c_channel
-    (15) expr -> . ID
-    (16) expr -> . NUMBER
-    (17) expr -> . BOOLEAN
-    (18) expr -> . STRING
-    (19) expr -> . LPAREN expr RPAREN
-    (20) expr -> . LPAREN c_channel RPAREN
-    (21) c_channel -> . CHAN ID : ID , ID
-
-    ID              shift and go to state 21
-    NUMBER          shift and go to state 24
-    BOOLEAN         shift and go to state 25
-    STRING          shift and go to state 26
-    LPAREN          shift and go to state 27
-    CHAN            shift and go to state 28
-
-    expr                           shift and go to state 22
-    c_channel                      shift and go to state 23
-
-state 19
-
-    (10) stmt -> IF LPAREN BOOLEAN . RPAREN expr
-    (11) stmt -> IF LPAREN BOOLEAN . RPAREN stmt ELSE stmt
-
-    RPAREN          shift and go to state 29
-
-
-state 20
-
-    (12) stmt -> WHILE LPAREN BOOLEAN . RPAREN stmt
-
-    RPAREN          shift and go to state 30
-
-
-state 21
-
-    (15) expr -> ID .
-
-    IF              reduce using rule 15 (expr -> ID .)
-    WHILE           reduce using rule 15 (expr -> ID .)
-    ID              reduce using rule 15 (expr -> ID .)
-    $end            reduce using rule 15 (expr -> ID .)
-    ELSE            reduce using rule 15 (expr -> ID .)
-    RPAREN          reduce using rule 15 (expr -> ID .)
-
-
-state 22
-
-    (13) atribuicao -> ID EQUAL expr .
-
-    IF              reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    WHILE           reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    ID              reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    $end            reduce using rule 13 (atribuicao -> ID EQUAL expr .)
-    ELSE            reduce using rule 13 (atribuicao -> ID EQUAL expr .)
 
 
 state 23
 
-    (14) expr -> c_channel .
+    (5) bloco_SEQ -> SEQ stmts .
+    (8) stmts -> stmts . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 14 (expr -> c_channel .)
-    WHILE           reduce using rule 14 (expr -> c_channel .)
-    ID              reduce using rule 14 (expr -> c_channel .)
-    $end            reduce using rule 14 (expr -> c_channel .)
-    ELSE            reduce using rule 14 (expr -> c_channel .)
+    $end            reduce using rule 5 (bloco_SEQ -> SEQ stmts .)
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    stmt                           shift and go to state 22
+    atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 10
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 24
 
-    (16) expr -> NUMBER .
+    (6) bloco_PAR -> PAR stmts .
+    (8) stmts -> stmts . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 16 (expr -> NUMBER .)
-    WHILE           reduce using rule 16 (expr -> NUMBER .)
-    ID              reduce using rule 16 (expr -> NUMBER .)
-    $end            reduce using rule 16 (expr -> NUMBER .)
-    ELSE            reduce using rule 16 (expr -> NUMBER .)
-    RPAREN          reduce using rule 16 (expr -> NUMBER .)
+    $end            reduce using rule 6 (bloco_PAR -> PAR stmts .)
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    stmt                           shift and go to state 22
+    atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 10
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 25
 
-    (17) expr -> BOOLEAN .
+    (11) stmt -> IF LPAREN . BOOLEAN RPAREN stmt
+    (12) stmt -> IF LPAREN . comparacao RPAREN stmt
+    (13) stmt -> IF LPAREN . BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> IF LPAREN . comparacao RPAREN single_stmt ELSE single_stmt
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 17 (expr -> BOOLEAN .)
-    WHILE           reduce using rule 17 (expr -> BOOLEAN .)
-    ID              reduce using rule 17 (expr -> BOOLEAN .)
-    $end            reduce using rule 17 (expr -> BOOLEAN .)
-    ELSE            reduce using rule 17 (expr -> BOOLEAN .)
-    RPAREN          reduce using rule 17 (expr -> BOOLEAN .)
+    BOOLEAN         shift and go to state 41
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    comparacao                     shift and go to state 42
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 26
 
-    (18) expr -> STRING .
+    (29) expr -> LPAREN expr . RPAREN
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
 
-    IF              reduce using rule 18 (expr -> STRING .)
-    WHILE           reduce using rule 18 (expr -> STRING .)
-    ID              reduce using rule 18 (expr -> STRING .)
-    $end            reduce using rule 18 (expr -> STRING .)
-    ELSE            reduce using rule 18 (expr -> STRING .)
-    RPAREN          reduce using rule 18 (expr -> STRING .)
+    RPAREN          shift and go to state 43
+    PLUS            shift and go to state 34
+    MINUS           shift and go to state 35
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
 
 
 state 27
 
-    (19) expr -> LPAREN . expr RPAREN
-    (20) expr -> LPAREN . c_channel RPAREN
-    (14) expr -> . c_channel
-    (15) expr -> . ID
-    (16) expr -> . NUMBER
-    (17) expr -> . BOOLEAN
-    (18) expr -> . STRING
-    (19) expr -> . LPAREN expr RPAREN
-    (20) expr -> . LPAREN c_channel RPAREN
-    (21) c_channel -> . CHAN ID : ID , ID
+    (30) expr -> LPAREN c_channel . RPAREN
+    (23) expr -> c_channel .
 
-    ID              shift and go to state 21
-    NUMBER          shift and go to state 24
-    BOOLEAN         shift and go to state 25
-    STRING          shift and go to state 26
-    LPAREN          shift and go to state 27
-    CHAN            shift and go to state 28
+  ! shift/reduce conflict for RPAREN resolved as shift
+    RPAREN          shift and go to state 44
+    PLUS            reduce using rule 23 (expr -> c_channel .)
+    MINUS           reduce using rule 23 (expr -> c_channel .)
+    TIMES           reduce using rule 23 (expr -> c_channel .)
+    DIVIDE          reduce using rule 23 (expr -> c_channel .)
+    AND             reduce using rule 23 (expr -> c_channel .)
+    OR              reduce using rule 23 (expr -> c_channel .)
 
-    expr                           shift and go to state 31
-    c_channel                      shift and go to state 32
+  ! RPAREN          [ reduce using rule 23 (expr -> c_channel .) ]
+
 
 state 28
 
-    (21) c_channel -> CHAN . ID : ID , ID
+    (24) expr -> ID .
 
-    ID              shift and go to state 33
+    RPAREN          reduce using rule 24 (expr -> ID .)
+    PLUS            reduce using rule 24 (expr -> ID .)
+    MINUS           reduce using rule 24 (expr -> ID .)
+    TIMES           reduce using rule 24 (expr -> ID .)
+    DIVIDE          reduce using rule 24 (expr -> ID .)
+    AND             reduce using rule 24 (expr -> ID .)
+    OR              reduce using rule 24 (expr -> ID .)
+    LESSTHAN        reduce using rule 24 (expr -> ID .)
+    GREATERTHAN     reduce using rule 24 (expr -> ID .)
+    NOTEQUAL        reduce using rule 24 (expr -> ID .)
+    IF              reduce using rule 24 (expr -> ID .)
+    WHILE           reduce using rule 24 (expr -> ID .)
+    ID              reduce using rule 24 (expr -> ID .)
+    NUMBER          reduce using rule 24 (expr -> ID .)
+    BOOLEAN         reduce using rule 24 (expr -> ID .)
+    STRING          reduce using rule 24 (expr -> ID .)
+    LPAREN          reduce using rule 24 (expr -> ID .)
+    CHAN            reduce using rule 24 (expr -> ID .)
+    $end            reduce using rule 24 (expr -> ID .)
+    ELSE            reduce using rule 24 (expr -> ID .)
 
 
 state 29
 
-    (10) stmt -> IF LPAREN BOOLEAN RPAREN . expr
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN . stmt ELSE stmt
-    (14) expr -> . c_channel
-    (15) expr -> . ID
-    (16) expr -> . NUMBER
-    (17) expr -> . BOOLEAN
-    (18) expr -> . STRING
-    (19) expr -> . LPAREN expr RPAREN
-    (20) expr -> . LPAREN c_channel RPAREN
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (21) c_channel -> . CHAN ID : ID , ID
-    (13) atribuicao -> . ID EQUAL expr
+    (17) stmt -> WHILE LPAREN . BOOLEAN RPAREN stmt
+    (18) stmt -> WHILE LPAREN . comparacao RPAREN stmt
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    ID              shift and go to state 36
-    NUMBER          shift and go to state 24
-    BOOLEAN         shift and go to state 25
-    STRING          shift and go to state 26
-    LPAREN          shift and go to state 27
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    CHAN            shift and go to state 28
+    BOOLEAN         shift and go to state 45
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
-    expr                           shift and go to state 34
-    stmt                           shift and go to state 35
-    c_channel                      shift and go to state 23
-    atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 46
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 30
 
-    (12) stmt -> WHILE LPAREN BOOLEAN RPAREN . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (19) atribuicao -> ID EQUAL . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
-    stmt                           shift and go to state 37
-    atribuicao                     shift and go to state 9
+    expr                           shift and go to state 47
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 31
 
-    (19) expr -> LPAREN expr . RPAREN
+    (20) comparacao -> expr LESSTHAN . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    RPAREN          shift and go to state 38
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 48
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 32
 
-    (20) expr -> LPAREN c_channel . RPAREN
-    (14) expr -> c_channel .
+    (21) comparacao -> expr GREATERTHAN . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-  ! shift/reduce conflict for RPAREN resolved as shift
-    RPAREN          shift and go to state 39
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
-  ! RPAREN          [ reduce using rule 14 (expr -> c_channel .) ]
-
+    expr                           shift and go to state 49
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 33
 
-    (21) c_channel -> CHAN ID . : ID , ID
+    (22) comparacao -> expr NOTEQUAL . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    :               shift and go to state 40
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 50
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 34
 
-    (10) stmt -> IF LPAREN BOOLEAN RPAREN expr .
+    (31) operacao -> expr PLUS . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN expr .)
-    WHILE           reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN expr .)
-    ID              reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN expr .)
-    $end            reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN expr .)
-    ELSE            reduce using rule 10 (stmt -> IF LPAREN BOOLEAN RPAREN expr .)
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 51
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 35
 
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN stmt . ELSE stmt
+    (32) operacao -> expr MINUS . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    ELSE            shift and go to state 41
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 52
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 36
 
-    (15) expr -> ID .
-    (13) atribuicao -> ID . EQUAL expr
+    (33) operacao -> expr TIMES . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 15 (expr -> ID .)
-    WHILE           reduce using rule 15 (expr -> ID .)
-    ID              reduce using rule 15 (expr -> ID .)
-    $end            reduce using rule 15 (expr -> ID .)
-    ELSE            reduce using rule 15 (expr -> ID .)
-    EQUAL           shift and go to state 18
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 53
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 37
 
-    (12) stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .
+    (34) operacao -> expr DIVIDE . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    WHILE           reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    ID              reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    $end            reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
-    ELSE            reduce using rule 12 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 54
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 38
 
-    (19) expr -> LPAREN expr RPAREN .
+    (35) operacao -> expr AND . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    WHILE           reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    ID              reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    $end            reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    ELSE            reduce using rule 19 (expr -> LPAREN expr RPAREN .)
-    RPAREN          reduce using rule 19 (expr -> LPAREN expr RPAREN .)
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 55
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 39
 
-    (20) expr -> LPAREN c_channel RPAREN .
+    (36) operacao -> expr OR . expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
 
-    IF              reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    WHILE           reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    ID              reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    $end            reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    ELSE            reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
-    RPAREN          reduce using rule 20 (expr -> LPAREN c_channel RPAREN .)
+    ID              shift and go to state 28
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
 
+    expr                           shift and go to state 56
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
 
 state 40
 
-    (21) c_channel -> CHAN ID : . ID , ID
+    (37) c_channel -> CHAN ID . : ID , ID
 
-    ID              shift and go to state 42
+    :               shift and go to state 57
 
 
 state 41
 
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE . stmt
-    (9) stmt -> . atribuicao
-    (10) stmt -> . IF LPAREN BOOLEAN RPAREN expr
-    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt ELSE stmt
-    (12) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
-    (13) atribuicao -> . ID EQUAL expr
+    (11) stmt -> IF LPAREN BOOLEAN . RPAREN stmt
+    (13) stmt -> IF LPAREN BOOLEAN . RPAREN single_stmt ELSE single_stmt
+    (27) expr -> BOOLEAN .
 
-    IF              shift and go to state 10
-    WHILE           shift and go to state 11
-    ID              shift and go to state 12
+    RPAREN          shift and go to state 58
+    LESSTHAN        reduce using rule 27 (expr -> BOOLEAN .)
+    GREATERTHAN     reduce using rule 27 (expr -> BOOLEAN .)
+    NOTEQUAL        reduce using rule 27 (expr -> BOOLEAN .)
+    PLUS            reduce using rule 27 (expr -> BOOLEAN .)
+    MINUS           reduce using rule 27 (expr -> BOOLEAN .)
+    TIMES           reduce using rule 27 (expr -> BOOLEAN .)
+    DIVIDE          reduce using rule 27 (expr -> BOOLEAN .)
+    AND             reduce using rule 27 (expr -> BOOLEAN .)
+    OR              reduce using rule 27 (expr -> BOOLEAN .)
 
-    stmt                           shift and go to state 43
-    atribuicao                     shift and go to state 9
 
 state 42
 
-    (21) c_channel -> CHAN ID : ID . , ID
+    (12) stmt -> IF LPAREN comparacao . RPAREN stmt
+    (14) stmt -> IF LPAREN comparacao . RPAREN single_stmt ELSE single_stmt
 
-    ,               shift and go to state 44
+    RPAREN          shift and go to state 59
 
 
 state 43
 
-    (11) stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .
+    (29) expr -> LPAREN expr RPAREN .
 
-    IF              reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    WHILE           reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    ID              reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    $end            reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
-    ELSE            reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt .)
+    LESSTHAN        reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    GREATERTHAN     reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    NOTEQUAL        reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    PLUS            reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    MINUS           reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    TIMES           reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    DIVIDE          reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    AND             reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    OR              reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    RPAREN          reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    IF              reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    WHILE           reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    ID              reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    NUMBER          reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    BOOLEAN         reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    STRING          reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    LPAREN          reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    CHAN            reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    $end            reduce using rule 29 (expr -> LPAREN expr RPAREN .)
+    ELSE            reduce using rule 29 (expr -> LPAREN expr RPAREN .)
 
 
 state 44
 
-    (21) c_channel -> CHAN ID : ID , . ID
+    (30) expr -> LPAREN c_channel RPAREN .
 
-    ID              shift and go to state 45
+    LESSTHAN        reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    GREATERTHAN     reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    NOTEQUAL        reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    PLUS            reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    MINUS           reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    TIMES           reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    DIVIDE          reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    AND             reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    OR              reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    RPAREN          reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    IF              reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    WHILE           reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    ID              reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    NUMBER          reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    BOOLEAN         reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    STRING          reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    LPAREN          reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    CHAN            reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    $end            reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
+    ELSE            reduce using rule 30 (expr -> LPAREN c_channel RPAREN .)
 
 
 state 45
 
-    (21) c_channel -> CHAN ID : ID , ID .
+    (17) stmt -> WHILE LPAREN BOOLEAN . RPAREN stmt
+    (27) expr -> BOOLEAN .
 
-    IF              reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    WHILE           reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    ID              reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    $end            reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    ELSE            reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
-    RPAREN          reduce using rule 21 (c_channel -> CHAN ID : ID , ID .)
+    RPAREN          shift and go to state 60
+    LESSTHAN        reduce using rule 27 (expr -> BOOLEAN .)
+    GREATERTHAN     reduce using rule 27 (expr -> BOOLEAN .)
+    NOTEQUAL        reduce using rule 27 (expr -> BOOLEAN .)
+    PLUS            reduce using rule 27 (expr -> BOOLEAN .)
+    MINUS           reduce using rule 27 (expr -> BOOLEAN .)
+    TIMES           reduce using rule 27 (expr -> BOOLEAN .)
+    DIVIDE          reduce using rule 27 (expr -> BOOLEAN .)
+    AND             reduce using rule 27 (expr -> BOOLEAN .)
+    OR              reduce using rule 27 (expr -> BOOLEAN .)
+
+
+state 46
+
+    (18) stmt -> WHILE LPAREN comparacao . RPAREN stmt
+
+    RPAREN          shift and go to state 61
+
+
+state 47
+
+    (19) atribuicao -> ID EQUAL expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    IF              reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    WHILE           reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    ID              reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    NUMBER          reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    BOOLEAN         reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    STRING          reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    LPAREN          reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    CHAN            reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    $end            reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    ELSE            reduce using rule 19 (atribuicao -> ID EQUAL expr .)
+    PLUS            shift and go to state 34
+    MINUS           shift and go to state 35
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+
+state 48
+
+    (20) comparacao -> expr LESSTHAN expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    IF              reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    WHILE           reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    ID              reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    NUMBER          reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    BOOLEAN         reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    STRING          reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    LPAREN          reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    CHAN            reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    $end            reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    RPAREN          reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    ELSE            reduce using rule 20 (comparacao -> expr LESSTHAN expr .)
+    PLUS            shift and go to state 34
+    MINUS           shift and go to state 35
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+
+state 49
+
+    (21) comparacao -> expr GREATERTHAN expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    IF              reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    WHILE           reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    ID              reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    NUMBER          reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    BOOLEAN         reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    STRING          reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    LPAREN          reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    CHAN            reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    $end            reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    RPAREN          reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    ELSE            reduce using rule 21 (comparacao -> expr GREATERTHAN expr .)
+    PLUS            shift and go to state 34
+    MINUS           shift and go to state 35
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+
+state 50
+
+    (22) comparacao -> expr NOTEQUAL expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    IF              reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    WHILE           reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    ID              reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    NUMBER          reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    BOOLEAN         reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    STRING          reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    LPAREN          reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    CHAN            reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    $end            reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    RPAREN          reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    ELSE            reduce using rule 22 (comparacao -> expr NOTEQUAL expr .)
+    PLUS            shift and go to state 34
+    MINUS           shift and go to state 35
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+
+state 51
+
+    (31) operacao -> expr PLUS expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    LESSTHAN        reduce using rule 31 (operacao -> expr PLUS expr .)
+    GREATERTHAN     reduce using rule 31 (operacao -> expr PLUS expr .)
+    NOTEQUAL        reduce using rule 31 (operacao -> expr PLUS expr .)
+    PLUS            reduce using rule 31 (operacao -> expr PLUS expr .)
+    MINUS           reduce using rule 31 (operacao -> expr PLUS expr .)
+    RPAREN          reduce using rule 31 (operacao -> expr PLUS expr .)
+    IF              reduce using rule 31 (operacao -> expr PLUS expr .)
+    WHILE           reduce using rule 31 (operacao -> expr PLUS expr .)
+    ID              reduce using rule 31 (operacao -> expr PLUS expr .)
+    NUMBER          reduce using rule 31 (operacao -> expr PLUS expr .)
+    BOOLEAN         reduce using rule 31 (operacao -> expr PLUS expr .)
+    STRING          reduce using rule 31 (operacao -> expr PLUS expr .)
+    LPAREN          reduce using rule 31 (operacao -> expr PLUS expr .)
+    CHAN            reduce using rule 31 (operacao -> expr PLUS expr .)
+    $end            reduce using rule 31 (operacao -> expr PLUS expr .)
+    ELSE            reduce using rule 31 (operacao -> expr PLUS expr .)
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+  ! TIMES           [ reduce using rule 31 (operacao -> expr PLUS expr .) ]
+  ! DIVIDE          [ reduce using rule 31 (operacao -> expr PLUS expr .) ]
+  ! AND             [ reduce using rule 31 (operacao -> expr PLUS expr .) ]
+  ! OR              [ reduce using rule 31 (operacao -> expr PLUS expr .) ]
+  ! PLUS            [ shift and go to state 34 ]
+  ! MINUS           [ shift and go to state 35 ]
+
+
+state 52
+
+    (32) operacao -> expr MINUS expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    LESSTHAN        reduce using rule 32 (operacao -> expr MINUS expr .)
+    GREATERTHAN     reduce using rule 32 (operacao -> expr MINUS expr .)
+    NOTEQUAL        reduce using rule 32 (operacao -> expr MINUS expr .)
+    PLUS            reduce using rule 32 (operacao -> expr MINUS expr .)
+    MINUS           reduce using rule 32 (operacao -> expr MINUS expr .)
+    RPAREN          reduce using rule 32 (operacao -> expr MINUS expr .)
+    IF              reduce using rule 32 (operacao -> expr MINUS expr .)
+    WHILE           reduce using rule 32 (operacao -> expr MINUS expr .)
+    ID              reduce using rule 32 (operacao -> expr MINUS expr .)
+    NUMBER          reduce using rule 32 (operacao -> expr MINUS expr .)
+    BOOLEAN         reduce using rule 32 (operacao -> expr MINUS expr .)
+    STRING          reduce using rule 32 (operacao -> expr MINUS expr .)
+    LPAREN          reduce using rule 32 (operacao -> expr MINUS expr .)
+    CHAN            reduce using rule 32 (operacao -> expr MINUS expr .)
+    $end            reduce using rule 32 (operacao -> expr MINUS expr .)
+    ELSE            reduce using rule 32 (operacao -> expr MINUS expr .)
+    TIMES           shift and go to state 36
+    DIVIDE          shift and go to state 37
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+  ! TIMES           [ reduce using rule 32 (operacao -> expr MINUS expr .) ]
+  ! DIVIDE          [ reduce using rule 32 (operacao -> expr MINUS expr .) ]
+  ! AND             [ reduce using rule 32 (operacao -> expr MINUS expr .) ]
+  ! OR              [ reduce using rule 32 (operacao -> expr MINUS expr .) ]
+  ! PLUS            [ shift and go to state 34 ]
+  ! MINUS           [ shift and go to state 35 ]
+
+
+state 53
+
+    (33) operacao -> expr TIMES expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    LESSTHAN        reduce using rule 33 (operacao -> expr TIMES expr .)
+    GREATERTHAN     reduce using rule 33 (operacao -> expr TIMES expr .)
+    NOTEQUAL        reduce using rule 33 (operacao -> expr TIMES expr .)
+    PLUS            reduce using rule 33 (operacao -> expr TIMES expr .)
+    MINUS           reduce using rule 33 (operacao -> expr TIMES expr .)
+    TIMES           reduce using rule 33 (operacao -> expr TIMES expr .)
+    DIVIDE          reduce using rule 33 (operacao -> expr TIMES expr .)
+    RPAREN          reduce using rule 33 (operacao -> expr TIMES expr .)
+    IF              reduce using rule 33 (operacao -> expr TIMES expr .)
+    WHILE           reduce using rule 33 (operacao -> expr TIMES expr .)
+    ID              reduce using rule 33 (operacao -> expr TIMES expr .)
+    NUMBER          reduce using rule 33 (operacao -> expr TIMES expr .)
+    BOOLEAN         reduce using rule 33 (operacao -> expr TIMES expr .)
+    STRING          reduce using rule 33 (operacao -> expr TIMES expr .)
+    LPAREN          reduce using rule 33 (operacao -> expr TIMES expr .)
+    CHAN            reduce using rule 33 (operacao -> expr TIMES expr .)
+    $end            reduce using rule 33 (operacao -> expr TIMES expr .)
+    ELSE            reduce using rule 33 (operacao -> expr TIMES expr .)
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+  ! AND             [ reduce using rule 33 (operacao -> expr TIMES expr .) ]
+  ! OR              [ reduce using rule 33 (operacao -> expr TIMES expr .) ]
+  ! PLUS            [ shift and go to state 34 ]
+  ! MINUS           [ shift and go to state 35 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! DIVIDE          [ shift and go to state 37 ]
+
+
+state 54
+
+    (34) operacao -> expr DIVIDE expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    LESSTHAN        reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    GREATERTHAN     reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    NOTEQUAL        reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    PLUS            reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    MINUS           reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    TIMES           reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    DIVIDE          reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    RPAREN          reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    IF              reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    WHILE           reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    ID              reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    NUMBER          reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    BOOLEAN         reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    STRING          reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    LPAREN          reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    CHAN            reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    $end            reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    ELSE            reduce using rule 34 (operacao -> expr DIVIDE expr .)
+    AND             shift and go to state 38
+    OR              shift and go to state 39
+
+  ! AND             [ reduce using rule 34 (operacao -> expr DIVIDE expr .) ]
+  ! OR              [ reduce using rule 34 (operacao -> expr DIVIDE expr .) ]
+  ! PLUS            [ shift and go to state 34 ]
+  ! MINUS           [ shift and go to state 35 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! DIVIDE          [ shift and go to state 37 ]
+
+
+state 55
+
+    (35) operacao -> expr AND expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    LESSTHAN        reduce using rule 35 (operacao -> expr AND expr .)
+    GREATERTHAN     reduce using rule 35 (operacao -> expr AND expr .)
+    NOTEQUAL        reduce using rule 35 (operacao -> expr AND expr .)
+    PLUS            reduce using rule 35 (operacao -> expr AND expr .)
+    MINUS           reduce using rule 35 (operacao -> expr AND expr .)
+    TIMES           reduce using rule 35 (operacao -> expr AND expr .)
+    DIVIDE          reduce using rule 35 (operacao -> expr AND expr .)
+    AND             reduce using rule 35 (operacao -> expr AND expr .)
+    OR              reduce using rule 35 (operacao -> expr AND expr .)
+    RPAREN          reduce using rule 35 (operacao -> expr AND expr .)
+    IF              reduce using rule 35 (operacao -> expr AND expr .)
+    WHILE           reduce using rule 35 (operacao -> expr AND expr .)
+    ID              reduce using rule 35 (operacao -> expr AND expr .)
+    NUMBER          reduce using rule 35 (operacao -> expr AND expr .)
+    BOOLEAN         reduce using rule 35 (operacao -> expr AND expr .)
+    STRING          reduce using rule 35 (operacao -> expr AND expr .)
+    LPAREN          reduce using rule 35 (operacao -> expr AND expr .)
+    CHAN            reduce using rule 35 (operacao -> expr AND expr .)
+    $end            reduce using rule 35 (operacao -> expr AND expr .)
+    ELSE            reduce using rule 35 (operacao -> expr AND expr .)
+
+  ! PLUS            [ shift and go to state 34 ]
+  ! MINUS           [ shift and go to state 35 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! DIVIDE          [ shift and go to state 37 ]
+  ! AND             [ shift and go to state 38 ]
+  ! OR              [ shift and go to state 39 ]
+
+
+state 56
+
+    (36) operacao -> expr OR expr .
+    (31) operacao -> expr . PLUS expr
+    (32) operacao -> expr . MINUS expr
+    (33) operacao -> expr . TIMES expr
+    (34) operacao -> expr . DIVIDE expr
+    (35) operacao -> expr . AND expr
+    (36) operacao -> expr . OR expr
+
+    LESSTHAN        reduce using rule 36 (operacao -> expr OR expr .)
+    GREATERTHAN     reduce using rule 36 (operacao -> expr OR expr .)
+    NOTEQUAL        reduce using rule 36 (operacao -> expr OR expr .)
+    PLUS            reduce using rule 36 (operacao -> expr OR expr .)
+    MINUS           reduce using rule 36 (operacao -> expr OR expr .)
+    TIMES           reduce using rule 36 (operacao -> expr OR expr .)
+    DIVIDE          reduce using rule 36 (operacao -> expr OR expr .)
+    AND             reduce using rule 36 (operacao -> expr OR expr .)
+    OR              reduce using rule 36 (operacao -> expr OR expr .)
+    RPAREN          reduce using rule 36 (operacao -> expr OR expr .)
+    IF              reduce using rule 36 (operacao -> expr OR expr .)
+    WHILE           reduce using rule 36 (operacao -> expr OR expr .)
+    ID              reduce using rule 36 (operacao -> expr OR expr .)
+    NUMBER          reduce using rule 36 (operacao -> expr OR expr .)
+    BOOLEAN         reduce using rule 36 (operacao -> expr OR expr .)
+    STRING          reduce using rule 36 (operacao -> expr OR expr .)
+    LPAREN          reduce using rule 36 (operacao -> expr OR expr .)
+    CHAN            reduce using rule 36 (operacao -> expr OR expr .)
+    $end            reduce using rule 36 (operacao -> expr OR expr .)
+    ELSE            reduce using rule 36 (operacao -> expr OR expr .)
+
+  ! PLUS            [ shift and go to state 34 ]
+  ! MINUS           [ shift and go to state 35 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! DIVIDE          [ shift and go to state 37 ]
+  ! AND             [ shift and go to state 38 ]
+  ! OR              [ shift and go to state 39 ]
+
+
+state 57
+
+    (37) c_channel -> CHAN ID : . ID , ID
+
+    ID              shift and go to state 62
+
+
+state 58
+
+    (11) stmt -> IF LPAREN BOOLEAN RPAREN . stmt
+    (13) stmt -> IF LPAREN BOOLEAN RPAREN . single_stmt ELSE single_stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (15) single_stmt -> . atribuicao
+    (16) single_stmt -> . comparacao
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
+
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
+
+    stmt                           shift and go to state 63
+    single_stmt                    shift and go to state 64
+    atribuicao                     shift and go to state 65
+    comparacao                     shift and go to state 66
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
+
+state 59
+
+    (12) stmt -> IF LPAREN comparacao RPAREN . stmt
+    (14) stmt -> IF LPAREN comparacao RPAREN . single_stmt ELSE single_stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (15) single_stmt -> . atribuicao
+    (16) single_stmt -> . comparacao
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
+
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
+
+    comparacao                     shift and go to state 66
+    stmt                           shift and go to state 67
+    single_stmt                    shift and go to state 68
+    atribuicao                     shift and go to state 65
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
+
+state 60
+
+    (17) stmt -> WHILE LPAREN BOOLEAN RPAREN . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
+
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
+
+    stmt                           shift and go to state 69
+    atribuicao                     shift and go to state 9
+    comparacao                     shift and go to state 10
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
+
+state 61
+
+    (18) stmt -> WHILE LPAREN comparacao RPAREN . stmt
+    (9) stmt -> . atribuicao
+    (10) stmt -> . comparacao
+    (11) stmt -> . IF LPAREN BOOLEAN RPAREN stmt
+    (12) stmt -> . IF LPAREN comparacao RPAREN stmt
+    (13) stmt -> . IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+    (14) stmt -> . IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt
+    (17) stmt -> . WHILE LPAREN BOOLEAN RPAREN stmt
+    (18) stmt -> . WHILE LPAREN comparacao RPAREN stmt
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
+
+    IF              shift and go to state 11
+    WHILE           shift and go to state 14
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
+
+    comparacao                     shift and go to state 10
+    stmt                           shift and go to state 70
+    atribuicao                     shift and go to state 9
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
+
+state 62
+
+    (37) c_channel -> CHAN ID : ID . , ID
+
+    ,               shift and go to state 71
+
+
+state 63
+
+    (11) stmt -> IF LPAREN BOOLEAN RPAREN stmt .
+
+    IF              reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    WHILE           reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    ID              reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    NUMBER          reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    BOOLEAN         reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    STRING          reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    LPAREN          reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    CHAN            reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+    $end            reduce using rule 11 (stmt -> IF LPAREN BOOLEAN RPAREN stmt .)
+
+
+state 64
+
+    (13) stmt -> IF LPAREN BOOLEAN RPAREN single_stmt . ELSE single_stmt
+
+    ELSE            shift and go to state 72
+
+
+state 65
+
+    (9) stmt -> atribuicao .
+    (15) single_stmt -> atribuicao .
+
+    IF              reduce using rule 9 (stmt -> atribuicao .)
+    WHILE           reduce using rule 9 (stmt -> atribuicao .)
+    ID              reduce using rule 9 (stmt -> atribuicao .)
+    NUMBER          reduce using rule 9 (stmt -> atribuicao .)
+    BOOLEAN         reduce using rule 9 (stmt -> atribuicao .)
+    STRING          reduce using rule 9 (stmt -> atribuicao .)
+    LPAREN          reduce using rule 9 (stmt -> atribuicao .)
+    CHAN            reduce using rule 9 (stmt -> atribuicao .)
+    $end            reduce using rule 9 (stmt -> atribuicao .)
+    ELSE            reduce using rule 15 (single_stmt -> atribuicao .)
+
+
+state 66
+
+    (10) stmt -> comparacao .
+    (16) single_stmt -> comparacao .
+
+    IF              reduce using rule 10 (stmt -> comparacao .)
+    WHILE           reduce using rule 10 (stmt -> comparacao .)
+    ID              reduce using rule 10 (stmt -> comparacao .)
+    NUMBER          reduce using rule 10 (stmt -> comparacao .)
+    BOOLEAN         reduce using rule 10 (stmt -> comparacao .)
+    STRING          reduce using rule 10 (stmt -> comparacao .)
+    LPAREN          reduce using rule 10 (stmt -> comparacao .)
+    CHAN            reduce using rule 10 (stmt -> comparacao .)
+    $end            reduce using rule 10 (stmt -> comparacao .)
+    ELSE            reduce using rule 16 (single_stmt -> comparacao .)
+
+
+state 67
+
+    (12) stmt -> IF LPAREN comparacao RPAREN stmt .
+
+    IF              reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    WHILE           reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    ID              reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    NUMBER          reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    BOOLEAN         reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    STRING          reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    LPAREN          reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    CHAN            reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+    $end            reduce using rule 12 (stmt -> IF LPAREN comparacao RPAREN stmt .)
+
+
+state 68
+
+    (14) stmt -> IF LPAREN comparacao RPAREN single_stmt . ELSE single_stmt
+
+    ELSE            shift and go to state 73
+
+
+state 69
+
+    (17) stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .
+
+    IF              reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    WHILE           reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    ID              reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    NUMBER          reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    BOOLEAN         reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    STRING          reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    LPAREN          reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    CHAN            reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+    $end            reduce using rule 17 (stmt -> WHILE LPAREN BOOLEAN RPAREN stmt .)
+
+
+state 70
+
+    (18) stmt -> WHILE LPAREN comparacao RPAREN stmt .
+
+    IF              reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    WHILE           reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    ID              reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    NUMBER          reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    BOOLEAN         reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    STRING          reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    LPAREN          reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    CHAN            reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+    $end            reduce using rule 18 (stmt -> WHILE LPAREN comparacao RPAREN stmt .)
+
+
+state 71
+
+    (37) c_channel -> CHAN ID : ID , . ID
+
+    ID              shift and go to state 74
+
+
+state 72
+
+    (13) stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE . single_stmt
+    (15) single_stmt -> . atribuicao
+    (16) single_stmt -> . comparacao
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
+
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
+
+    single_stmt                    shift and go to state 75
+    atribuicao                     shift and go to state 76
+    comparacao                     shift and go to state 77
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
+
+state 73
+
+    (14) stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE . single_stmt
+    (15) single_stmt -> . atribuicao
+    (16) single_stmt -> . comparacao
+    (19) atribuicao -> . ID EQUAL expr
+    (20) comparacao -> . expr LESSTHAN expr
+    (21) comparacao -> . expr GREATERTHAN expr
+    (22) comparacao -> . expr NOTEQUAL expr
+    (23) expr -> . c_channel
+    (24) expr -> . ID
+    (25) expr -> . NUMBER
+    (26) expr -> . operacao
+    (27) expr -> . BOOLEAN
+    (28) expr -> . STRING
+    (29) expr -> . LPAREN expr RPAREN
+    (30) expr -> . LPAREN c_channel RPAREN
+    (37) c_channel -> . CHAN ID : ID , ID
+    (31) operacao -> . expr PLUS expr
+    (32) operacao -> . expr MINUS expr
+    (33) operacao -> . expr TIMES expr
+    (34) operacao -> . expr DIVIDE expr
+    (35) operacao -> . expr AND expr
+    (36) operacao -> . expr OR expr
+
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 18
+    BOOLEAN         shift and go to state 13
+    STRING          shift and go to state 20
+    LPAREN          shift and go to state 12
+    CHAN            shift and go to state 21
+
+    comparacao                     shift and go to state 77
+    single_stmt                    shift and go to state 78
+    atribuicao                     shift and go to state 76
+    expr                           shift and go to state 16
+    c_channel                      shift and go to state 17
+    operacao                       shift and go to state 19
+
+state 74
+
+    (37) c_channel -> CHAN ID : ID , ID .
+
+    LESSTHAN        reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    GREATERTHAN     reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    NOTEQUAL        reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    PLUS            reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    MINUS           reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    TIMES           reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    DIVIDE          reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    AND             reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    OR              reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    RPAREN          reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    IF              reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    WHILE           reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    ID              reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    NUMBER          reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    BOOLEAN         reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    STRING          reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    LPAREN          reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    CHAN            reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    $end            reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+    ELSE            reduce using rule 37 (c_channel -> CHAN ID : ID , ID .)
+
+
+state 75
+
+    (13) stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .
+
+    IF              reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    WHILE           reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    ID              reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    NUMBER          reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    BOOLEAN         reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    STRING          reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    LPAREN          reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    CHAN            reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+    $end            reduce using rule 13 (stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt .)
+
+
+state 76
+
+    (15) single_stmt -> atribuicao .
+
+    IF              reduce using rule 15 (single_stmt -> atribuicao .)
+    WHILE           reduce using rule 15 (single_stmt -> atribuicao .)
+    ID              reduce using rule 15 (single_stmt -> atribuicao .)
+    NUMBER          reduce using rule 15 (single_stmt -> atribuicao .)
+    BOOLEAN         reduce using rule 15 (single_stmt -> atribuicao .)
+    STRING          reduce using rule 15 (single_stmt -> atribuicao .)
+    LPAREN          reduce using rule 15 (single_stmt -> atribuicao .)
+    CHAN            reduce using rule 15 (single_stmt -> atribuicao .)
+    $end            reduce using rule 15 (single_stmt -> atribuicao .)
+
+
+state 77
+
+    (16) single_stmt -> comparacao .
+
+    IF              reduce using rule 16 (single_stmt -> comparacao .)
+    WHILE           reduce using rule 16 (single_stmt -> comparacao .)
+    ID              reduce using rule 16 (single_stmt -> comparacao .)
+    NUMBER          reduce using rule 16 (single_stmt -> comparacao .)
+    BOOLEAN         reduce using rule 16 (single_stmt -> comparacao .)
+    STRING          reduce using rule 16 (single_stmt -> comparacao .)
+    LPAREN          reduce using rule 16 (single_stmt -> comparacao .)
+    CHAN            reduce using rule 16 (single_stmt -> comparacao .)
+    $end            reduce using rule 16 (single_stmt -> comparacao .)
+
+
+state 78
+
+    (14) stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .
+
+    IF              reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    WHILE           reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    ID              reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    NUMBER          reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    BOOLEAN         reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    STRING          reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    LPAREN          reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    CHAN            reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
+    $end            reduce using rule 14 (stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for RPAREN in state 32 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 27 resolved as shift

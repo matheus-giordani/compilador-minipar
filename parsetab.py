@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftSEQPARleftIFELSEWHILEleftEQUALleftLESSTHANGREATERTHANNOTEQUALleftPLUSMINUSleftTIMESDIVIDEleftANDORleftCHANAND ASPAS BOOLEAN CHAN COMMENT DIVIDE ELSE EQUAL ERR_STRING FALSE GREATERTHAN ID IF LESSTHAN LPAREN MINUS NOTEQUAL NUMBER OR PAR PLUS RPAREN SEQ STRING TIMES TRUE WHILEprograma_minipar : bloco_stmtbloco_stmt : bloco_SEQ\n                  | bloco_PAR\n                  | stmtsbloco_SEQ : SEQ stmtsbloco_PAR : PAR stmtsstmts : stmt\n             | stmts stmtstmt : atribuicaostmt : IF LPAREN BOOLEAN RPAREN expr %prec IFstmt : IF LPAREN BOOLEAN RPAREN stmt ELSE stmtstmt : WHILE LPAREN BOOLEAN RPAREN stmt %prec WHILEatribuicao : ID EQUAL exprexpr : c_channel\n            | ID\n            | NUMBER\n            | BOOLEAN\n            | STRING\n            | LPAREN expr RPAREN\n            | LPAREN c_channel RPARENc_channel : CHAN ID ":" ID "," ID'
+_lr_signature = 'leftSEQPARleftIFELSEWHILEleftEQUALleftLESSTHANGREATERTHANNOTEQUALleftPLUSMINUSleftTIMESDIVIDEleftANDORleftCHANAND ASPAS BOOLEAN CHAN COMMENT DIVIDE ELSE EQUAL ERR_STRING FALSE GREATERTHAN ID IF LESSTHAN LPAREN MINUS NOTEQUAL NUMBER OR PAR PLUS RPAREN SEQ STRING TIMES TRUE WHILEprograma_minipar : bloco_stmtbloco_stmt : bloco_SEQ\n                  | bloco_PAR\n                  | stmtsbloco_SEQ : SEQ stmtsbloco_PAR : PAR stmtsstmts : stmt\n             | stmts stmtstmt : atribuicaostmt : comparacaostmt : IF LPAREN BOOLEAN RPAREN stmt %prec IF\n            | IF LPAREN comparacao RPAREN stmt %prec IFstmt : IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt\n            | IF LPAREN comparacao RPAREN single_stmt ELSE single_stmtsingle_stmt : atribuicao\n                   | comparacaostmt : WHILE LPAREN BOOLEAN RPAREN stmt %prec WHILE\n            | WHILE LPAREN comparacao RPAREN stmt %prec WHILEatribuicao : ID EQUAL exprcomparacao : expr LESSTHAN expr\n                  | expr GREATERTHAN expr\n                  | expr NOTEQUAL exprexpr : c_channel\n            | ID\n            | NUMBER\n            | operacao\n            | BOOLEAN\n            | STRING\n            | LPAREN expr RPAREN\n            | LPAREN c_channel RPARENoperacao : expr PLUS expr\n                | expr MINUS expr\n                | expr TIMES expr\n                | expr DIVIDE expr\n                | expr AND expr\n                | expr OR exprc_channel : CHAN ID ":" ID "," ID'
     
-_lr_action_items = {'SEQ':([0,],[6,]),'PAR':([0,],[7,]),'IF':([0,5,6,7,8,9,13,14,15,21,22,23,24,25,26,29,30,34,36,37,38,39,41,43,45,],[10,10,10,10,-7,-9,-8,10,10,-15,-13,-14,-16,-17,-18,10,10,-10,-15,-12,-19,-20,10,-11,-21,]),'WHILE':([0,5,6,7,8,9,13,14,15,21,22,23,24,25,26,29,30,34,36,37,38,39,41,43,45,],[11,11,11,11,-7,-9,-8,11,11,-15,-13,-14,-16,-17,-18,11,11,-10,-15,-12,-19,-20,11,-11,-21,]),'ID':([0,5,6,7,8,9,13,14,15,18,21,22,23,24,25,26,27,28,29,30,34,36,37,38,39,40,41,43,44,45,],[12,12,12,12,-7,-9,-8,12,12,21,-15,-13,-14,-16,-17,-18,21,33,36,12,-10,-15,-12,-19,-20,42,12,-11,45,-21,]),'$end':([1,2,3,4,5,8,9,13,14,15,21,22,23,24,25,26,34,36,37,38,39,43,45,],[0,-1,-2,-3,-4,-7,-9,-8,-5,-6,-15,-13,-14,-16,-17,-18,-10,-15,-12,-19,-20,-11,-21,]),'ELSE':([9,21,22,23,24,25,26,34,35,36,37,38,39,43,45,],[-9,-15,-13,-14,-16,-17,-18,-10,41,-15,-12,-19,-20,-11,-21,]),'LPAREN':([10,11,18,27,29,],[16,17,27,27,27,]),'EQUAL':([12,36,],[18,18,]),'BOOLEAN':([16,17,18,27,29,],[19,20,25,25,25,]),'NUMBER':([18,27,29,],[24,24,24,]),'STRING':([18,27,29,],[26,26,26,]),'CHAN':([18,27,29,],[28,28,28,]),'RPAREN':([19,20,21,24,25,26,31,32,38,39,45,],[29,30,-15,-16,-17,-18,38,39,-19,-20,-21,]),':':([33,],[40,]),',':([42,],[44,]),}
+_lr_action_items = {'SEQ':([0,],[6,]),'PAR':([0,],[7,]),'IF':([0,5,6,7,8,9,10,13,17,18,19,20,22,23,24,28,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,63,65,66,67,69,70,74,75,76,77,78,],[11,11,11,11,-7,-9,-10,-27,-23,-25,-26,-28,-8,11,11,-24,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,11,11,11,11,-11,-9,-10,-12,-17,-18,-37,-13,-15,-16,-14,]),'WHILE':([0,5,6,7,8,9,10,13,17,18,19,20,22,23,24,28,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,63,65,66,67,69,70,74,75,76,77,78,],[14,14,14,14,-7,-9,-10,-27,-23,-25,-26,-28,-8,14,14,-24,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,14,14,14,14,-11,-9,-10,-12,-17,-18,-37,-13,-15,-16,-14,]),'ID':([0,5,6,7,8,9,10,12,13,17,18,19,20,21,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,43,44,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,63,65,66,67,69,70,71,72,73,74,75,76,77,78,],[15,15,15,15,-7,-9,-10,28,-27,-23,-25,-26,-28,40,-8,15,15,28,-24,28,28,28,28,28,28,28,28,28,28,28,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,62,15,15,15,15,-11,-9,-10,-12,-17,-18,74,15,15,-37,-13,-15,-16,-14,]),'NUMBER':([0,5,6,7,8,9,10,12,13,17,18,19,20,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,63,65,66,67,69,70,72,73,74,75,76,77,78,],[18,18,18,18,-7,-9,-10,18,-27,-23,-25,-26,-28,-8,18,18,18,-24,18,18,18,18,18,18,18,18,18,18,18,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,18,18,18,18,-11,-9,-10,-12,-17,-18,18,18,-37,-13,-15,-16,-14,]),'BOOLEAN':([0,5,6,7,8,9,10,12,13,17,18,19,20,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,63,65,66,67,69,70,72,73,74,75,76,77,78,],[13,13,13,13,-7,-9,-10,13,-27,-23,-25,-26,-28,-8,13,13,41,-24,45,13,13,13,13,13,13,13,13,13,13,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,13,13,13,13,-11,-9,-10,-12,-17,-18,13,13,-37,-13,-15,-16,-14,]),'STRING':([0,5,6,7,8,9,10,12,13,17,18,19,20,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,63,65,66,67,69,70,72,73,74,75,76,77,78,],[20,20,20,20,-7,-9,-10,20,-27,-23,-25,-26,-28,-8,20,20,20,-24,20,20,20,20,20,20,20,20,20,20,20,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,20,20,20,20,-11,-9,-10,-12,-17,-18,20,20,-37,-13,-15,-16,-14,]),'LPAREN':([0,5,6,7,8,9,10,11,12,13,14,17,18,19,20,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,63,65,66,67,69,70,72,73,74,75,76,77,78,],[12,12,12,12,-7,-9,-10,25,12,-27,29,-23,-25,-26,-28,-8,12,12,12,-24,12,12,12,12,12,12,12,12,12,12,12,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,12,12,12,12,-11,-9,-10,-12,-17,-18,12,12,-37,-13,-15,-16,-14,]),'CHAN':([0,5,6,7,8,9,10,12,13,17,18,19,20,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,63,65,66,67,69,70,72,73,74,75,76,77,78,],[21,21,21,21,-7,-9,-10,21,-27,-23,-25,-26,-28,-8,21,21,21,-24,21,21,21,21,21,21,21,21,21,21,21,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,21,21,21,21,-11,-9,-10,-12,-17,-18,21,21,-37,-13,-15,-16,-14,]),'$end':([1,2,3,4,5,8,9,10,13,17,18,19,20,22,23,24,28,43,44,47,48,49,50,51,52,53,54,55,56,63,65,66,67,69,70,74,75,76,77,78,],[0,-1,-2,-3,-4,-7,-9,-10,-27,-23,-25,-26,-28,-8,-5,-6,-24,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,-11,-9,-10,-12,-17,-18,-37,-13,-15,-16,-14,]),'LESSTHAN':([13,15,16,17,18,19,20,28,41,43,44,45,51,52,53,54,55,56,74,],[-27,-24,31,-23,-25,-26,-28,-24,-27,-29,-30,-27,-31,-32,-33,-34,-35,-36,-37,]),'GREATERTHAN':([13,15,16,17,18,19,20,28,41,43,44,45,51,52,53,54,55,56,74,],[-27,-24,32,-23,-25,-26,-28,-24,-27,-29,-30,-27,-31,-32,-33,-34,-35,-36,-37,]),'NOTEQUAL':([13,15,16,17,18,19,20,28,41,43,44,45,51,52,53,54,55,56,74,],[-27,-24,33,-23,-25,-26,-28,-24,-27,-29,-30,-27,-31,-32,-33,-34,-35,-36,-37,]),'PLUS':([13,15,16,17,18,19,20,26,27,28,41,43,44,45,47,48,49,50,51,52,53,54,55,56,74,],[-27,-24,34,-23,-25,-26,-28,34,-23,-24,-27,-29,-30,-27,34,34,34,34,-31,-32,-33,-34,-35,-36,-37,]),'MINUS':([13,15,16,17,18,19,20,26,27,28,41,43,44,45,47,48,49,50,51,52,53,54,55,56,74,],[-27,-24,35,-23,-25,-26,-28,35,-23,-24,-27,-29,-30,-27,35,35,35,35,-31,-32,-33,-34,-35,-36,-37,]),'TIMES':([13,15,16,17,18,19,20,26,27,28,41,43,44,45,47,48,49,50,51,52,53,54,55,56,74,],[-27,-24,36,-23,-25,-26,-28,36,-23,-24,-27,-29,-30,-27,36,36,36,36,36,36,-33,-34,-35,-36,-37,]),'DIVIDE':([13,15,16,17,18,19,20,26,27,28,41,43,44,45,47,48,49,50,51,52,53,54,55,56,74,],[-27,-24,37,-23,-25,-26,-28,37,-23,-24,-27,-29,-30,-27,37,37,37,37,37,37,-33,-34,-35,-36,-37,]),'AND':([13,15,16,17,18,19,20,26,27,28,41,43,44,45,47,48,49,50,51,52,53,54,55,56,74,],[-27,-24,38,-23,-25,-26,-28,38,-23,-24,-27,-29,-30,-27,38,38,38,38,38,38,38,38,-35,-36,-37,]),'OR':([13,15,16,17,18,19,20,26,27,28,41,43,44,45,47,48,49,50,51,52,53,54,55,56,74,],[-27,-24,39,-23,-25,-26,-28,39,-23,-24,-27,-29,-30,-27,39,39,39,39,39,39,39,39,-35,-36,-37,]),'RPAREN':([13,17,18,19,20,26,27,28,41,42,43,44,45,46,48,49,50,51,52,53,54,55,56,74,],[-27,-23,-25,-26,-28,43,44,-24,58,59,-29,-30,60,61,-20,-21,-22,-31,-32,-33,-34,-35,-36,-37,]),'ELSE':([13,17,18,19,20,28,43,44,47,48,49,50,51,52,53,54,55,56,64,65,66,68,74,],[-27,-23,-25,-26,-28,-24,-29,-30,-19,-20,-21,-22,-31,-32,-33,-34,-35,-36,72,-15,-16,73,-37,]),'EQUAL':([15,],[30,]),':':([40,],[57,]),',':([62,],[71,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'programa_minipar':([0,],[1,]),'bloco_stmt':([0,],[2,]),'bloco_SEQ':([0,],[3,]),'bloco_PAR':([0,],[4,]),'stmts':([0,6,7,],[5,14,15,]),'stmt':([0,5,6,7,14,15,29,30,41,],[8,13,8,8,13,13,35,37,43,]),'atribuicao':([0,5,6,7,14,15,29,30,41,],[9,9,9,9,9,9,9,9,9,]),'expr':([18,27,29,],[22,31,34,]),'c_channel':([18,27,29,],[23,32,23,]),}
+_lr_goto_items = {'programa_minipar':([0,],[1,]),'bloco_stmt':([0,],[2,]),'bloco_SEQ':([0,],[3,]),'bloco_PAR':([0,],[4,]),'stmts':([0,6,7,],[5,23,24,]),'stmt':([0,5,6,7,23,24,58,59,60,61,],[8,22,8,8,22,22,63,67,69,70,]),'atribuicao':([0,5,6,7,23,24,58,59,60,61,72,73,],[9,9,9,9,9,9,65,65,9,9,76,76,]),'comparacao':([0,5,6,7,23,24,25,29,58,59,60,61,72,73,],[10,10,10,10,10,10,42,46,66,66,10,10,77,77,]),'expr':([0,5,6,7,12,23,24,25,29,30,31,32,33,34,35,36,37,38,39,58,59,60,61,72,73,],[16,16,16,16,26,16,16,16,16,47,48,49,50,51,52,53,54,55,56,16,16,16,16,16,16,]),'c_channel':([0,5,6,7,12,23,24,25,29,30,31,32,33,34,35,36,37,38,39,58,59,60,61,72,73,],[17,17,17,17,27,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'operacao':([0,5,6,7,12,23,24,25,29,30,31,32,33,34,35,36,37,38,39,58,59,60,61,72,73,],[19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,]),'single_stmt':([58,59,72,73,],[64,68,75,78,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,25 +27,41 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> programa_minipar","S'",1,None,None,None),
-  ('programa_minipar -> bloco_stmt','programa_minipar',1,'p_programa_minipar','synth.py',20),
-  ('bloco_stmt -> bloco_SEQ','bloco_stmt',1,'p_bloco_stmt','synth.py',23),
-  ('bloco_stmt -> bloco_PAR','bloco_stmt',1,'p_bloco_stmt','synth.py',24),
-  ('bloco_stmt -> stmts','bloco_stmt',1,'p_bloco_stmt','synth.py',25),
-  ('bloco_SEQ -> SEQ stmts','bloco_SEQ',2,'p_bloco_SEQ','synth.py',28),
-  ('bloco_PAR -> PAR stmts','bloco_PAR',2,'p_bloco_PAR','synth.py',31),
-  ('stmts -> stmt','stmts',1,'p_stmts','synth.py',34),
-  ('stmts -> stmts stmt','stmts',2,'p_stmts','synth.py',35),
-  ('stmt -> atribuicao','stmt',1,'p_stmt_atribuicao','synth.py',38),
-  ('stmt -> IF LPAREN BOOLEAN RPAREN expr','stmt',5,'p_stmt_if','synth.py',41),
-  ('stmt -> IF LPAREN BOOLEAN RPAREN stmt ELSE stmt','stmt',7,'p_stmt_if_else','synth.py',44),
-  ('stmt -> WHILE LPAREN BOOLEAN RPAREN stmt','stmt',5,'p_stmt_while','synth.py',47),
-  ('atribuicao -> ID EQUAL expr','atribuicao',3,'p_atribuicao','synth.py',50),
-  ('expr -> c_channel','expr',1,'p_expr','synth.py',53),
-  ('expr -> ID','expr',1,'p_expr','synth.py',54),
-  ('expr -> NUMBER','expr',1,'p_expr','synth.py',55),
-  ('expr -> BOOLEAN','expr',1,'p_expr','synth.py',56),
-  ('expr -> STRING','expr',1,'p_expr','synth.py',57),
-  ('expr -> LPAREN expr RPAREN','expr',3,'p_expr','synth.py',58),
-  ('expr -> LPAREN c_channel RPAREN','expr',3,'p_expr','synth.py',59),
-  ('c_channel -> CHAN ID : ID , ID','c_channel',6,'p_c_channel','synth.py',62),
+  ('programa_minipar -> bloco_stmt','programa_minipar',1,'p_programa_minipar','synth.py',18),
+  ('bloco_stmt -> bloco_SEQ','bloco_stmt',1,'p_bloco_stmt','synth.py',21),
+  ('bloco_stmt -> bloco_PAR','bloco_stmt',1,'p_bloco_stmt','synth.py',22),
+  ('bloco_stmt -> stmts','bloco_stmt',1,'p_bloco_stmt','synth.py',23),
+  ('bloco_SEQ -> SEQ stmts','bloco_SEQ',2,'p_bloco_SEQ','synth.py',26),
+  ('bloco_PAR -> PAR stmts','bloco_PAR',2,'p_bloco_PAR','synth.py',29),
+  ('stmts -> stmt','stmts',1,'p_stmts','synth.py',32),
+  ('stmts -> stmts stmt','stmts',2,'p_stmts','synth.py',33),
+  ('stmt -> atribuicao','stmt',1,'p_stmt_atribuicao','synth.py',36),
+  ('stmt -> comparacao','stmt',1,'p_stmt_comparacao','synth.py',39),
+  ('stmt -> IF LPAREN BOOLEAN RPAREN stmt','stmt',5,'p_stmt_if','synth.py',42),
+  ('stmt -> IF LPAREN comparacao RPAREN stmt','stmt',5,'p_stmt_if','synth.py',43),
+  ('stmt -> IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt','stmt',7,'p_stmt_if_else','synth.py',46),
+  ('stmt -> IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt','stmt',7,'p_stmt_if_else','synth.py',47),
+  ('single_stmt -> atribuicao','single_stmt',1,'p_single_stmt','synth.py',50),
+  ('single_stmt -> comparacao','single_stmt',1,'p_single_stmt','synth.py',51),
+  ('stmt -> WHILE LPAREN BOOLEAN RPAREN stmt','stmt',5,'p_stmt_while','synth.py',54),
+  ('stmt -> WHILE LPAREN comparacao RPAREN stmt','stmt',5,'p_stmt_while','synth.py',55),
+  ('atribuicao -> ID EQUAL expr','atribuicao',3,'p_atribuicao','synth.py',58),
+  ('comparacao -> expr LESSTHAN expr','comparacao',3,'p_comparacao','synth.py',61),
+  ('comparacao -> expr GREATERTHAN expr','comparacao',3,'p_comparacao','synth.py',62),
+  ('comparacao -> expr NOTEQUAL expr','comparacao',3,'p_comparacao','synth.py',63),
+  ('expr -> c_channel','expr',1,'p_expr','synth.py',66),
+  ('expr -> ID','expr',1,'p_expr','synth.py',67),
+  ('expr -> NUMBER','expr',1,'p_expr','synth.py',68),
+  ('expr -> operacao','expr',1,'p_expr','synth.py',69),
+  ('expr -> BOOLEAN','expr',1,'p_expr','synth.py',70),
+  ('expr -> STRING','expr',1,'p_expr','synth.py',71),
+  ('expr -> LPAREN expr RPAREN','expr',3,'p_expr','synth.py',72),
+  ('expr -> LPAREN c_channel RPAREN','expr',3,'p_expr','synth.py',73),
+  ('operacao -> expr PLUS expr','operacao',3,'p_operacao','synth.py',76),
+  ('operacao -> expr MINUS expr','operacao',3,'p_operacao','synth.py',77),
+  ('operacao -> expr TIMES expr','operacao',3,'p_operacao','synth.py',78),
+  ('operacao -> expr DIVIDE expr','operacao',3,'p_operacao','synth.py',79),
+  ('operacao -> expr AND expr','operacao',3,'p_operacao','synth.py',80),
+  ('operacao -> expr OR expr','operacao',3,'p_operacao','synth.py',81),
+  ('c_channel -> CHAN ID : ID , ID','c_channel',6,'p_c_channel','synth.py',84),
 ]
