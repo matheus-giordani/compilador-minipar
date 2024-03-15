@@ -1,8 +1,6 @@
 import ply.yacc as yacc
 from minipar_lex import tokens
 
-
-
 # Definindo as regras de precedência e associatividade (se necessário)
 precedence = (
     ('left', 'SEQ', 'PAR'),
@@ -36,27 +34,51 @@ def p_stmts(p):
 
 def p_stmt_atribuicao(p):
     'stmt : atribuicao'
+
+def p_stmt_comparacao(p):
+    'stmt : comparacao'
     
 def p_stmt_if(p):
-    'stmt : IF LPAREN BOOLEAN RPAREN expr %prec IF'
+    '''stmt : IF LPAREN BOOLEAN RPAREN stmt %prec IF
+            | IF LPAREN comparacao RPAREN stmt %prec IF'''
 
 def p_stmt_if_else(p):
-    'stmt : IF LPAREN BOOLEAN RPAREN stmt ELSE stmt'
+    '''stmt : IF LPAREN BOOLEAN RPAREN single_stmt ELSE single_stmt
+            | IF LPAREN comparacao RPAREN single_stmt ELSE single_stmt'''
+
+def p_single_stmt(p):
+    '''single_stmt : atribuicao
+                   | comparacao'''
 
 def p_stmt_while(p):
-    'stmt : WHILE LPAREN BOOLEAN RPAREN stmt %prec WHILE'
+    '''stmt : WHILE LPAREN BOOLEAN RPAREN stmt %prec WHILE
+            | WHILE LPAREN comparacao RPAREN stmt %prec WHILE'''
 
 def p_atribuicao(p):
     'atribuicao : ID EQUAL expr'
+
+def p_comparacao(p):
+    '''comparacao : expr LESSTHAN expr
+                  | expr GREATERTHAN expr
+                  | expr NOTEQUAL expr'''
     
 def p_expr(p):
     '''expr : c_channel
             | ID
             | NUMBER
+            | operacao
             | BOOLEAN
             | STRING
             | LPAREN expr RPAREN
             | LPAREN c_channel RPAREN'''  # Adiciona a opção para c_channel dentro de LPAREN/RPAREN
+    
+def p_operacao(p):
+    '''operacao : expr PLUS expr
+                | expr MINUS expr
+                | expr TIMES expr
+                | expr DIVIDE expr
+                | expr AND expr
+                | expr OR expr'''
 
 def p_c_channel(p):
     'c_channel : CHAN ID ":" ID "," ID'
@@ -73,6 +95,14 @@ parser = yacc.yacc()
 
 # Exemplo de uso do analisador
 entrada = '''
+PAR
+    teste = 0
+    while ( teste < 5 )
+        teste = teste + 1
+'''
+
+# Codigo teste
+'''
 PAR
     if ( True )
         teste = 2
