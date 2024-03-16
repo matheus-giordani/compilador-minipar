@@ -17,12 +17,13 @@ reserved = {
     'or': 'OR',
     'SEQ': 'SEQ',
     'PAR': 'PAR',
-    'CHAN': 'CHAN'
+    'CHAN': 'CHAN',
+    'PRINT': 'PRINT'
 }
 # Lista de tokens
 tokens = ['ID', 'EQUAL', 'LPAREN', 'RPAREN','NUMBER',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 
-    'LESSTHAN', 'GREATERTHAN', 'NOTEQUAL',"STRING", 'BOOLEAN',  'ASPAS', 'ERR_STRING', 'COMMENT'
+    'LESSTHAN', 'GREATERTHAN', 'NOTEQUAL',"STRING", 'BOOLEAN',  'ASPAS', 'ERR_STRING', 'COMMENT', 'PRINT'
 ] + list(reserved.values()) # Adiciona as palavras reservadas na lista de tokens
 
 # Expressões regulares para tokens simples
@@ -68,7 +69,12 @@ def t_ERR_STRING(t):
     r'"[^("|\n?)]*'
     return t 
 
-     
+# Tratamento da palavra reservada "print"
+def t_PRINT(t):
+    r'print'
+    t.type = 'PRINT'
+    return t
+
 
 # Tratamento de booleanos
 def t_BOOLEAN(t): #Fazer o boleano identificar expressões como true ou false
