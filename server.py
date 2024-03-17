@@ -1,4 +1,5 @@
-import socket 
+import socket
+import threading
 from minipar_lex import lexer
 from synth import parser
 PORT = 5000
@@ -30,7 +31,7 @@ def startChat():
         #broadcastMessage(f"{name} has joined the chat! ".encode(FORMAT)) 
         conn.send('Connection successful!'.encode(FORMAT)) 
 
-        message = '''
+        message = f'''{name} has joined the chat!
         Minipar Calculator
         Options: 
         + : Addition
@@ -42,13 +43,15 @@ def startChat():
                 '''
         broadcastMessage(message.encode(FORMAT))
 
-        handle(conn, addr)
+        # handle(conn, addr)
         
-        # thread = threading.Thread(target = handle, 
-        #                           args = (conn, addr)) 
-        # thread.start() 
+        conn.send('Connection successful!'.encode(FORMAT)) 
         
-        # print(f"active connections {threading.active_count()-1}") 
+        thread = threading.Thread(target = handle, 
+                                  args = (conn, addr)) 
+        thread.start() 
+        
+        print(f"active connections {threading.activeCount()-1}") 
 
 def handle(conn, addr):   
 
