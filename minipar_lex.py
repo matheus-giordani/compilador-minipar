@@ -20,15 +20,14 @@ reserved = {
     'CHAN': 'CHAN'
 }
 # Lista de tokens
-tokens = ['ID', 'EQUAL', 'LPAREN', 'RPAREN','NUMBER','ASSIGN',
+tokens = ['ID', 'EQUAL', 'LPAREN', 'RPAREN','NUMBER',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE','LBRACE', 'RBRACE' ,
     'LESSTHAN', 'GREATERTHAN','GREATEROREQUAL', 'LESSTHANOREQUAL' , 'NOTEQUAL',"STRING", 'BOOLEAN',  'ASPAS', 'ERR_STRING', 'COMMENT'
 ] + list(reserved.values()) # Adiciona as palavras reservadas na lista de tokens
 
 # Expressões regulares para tokens simples
 t_COMMENT = r'\#.*'
-t_EQUAL = r'=='
-t_ASSIGN = r'='
+t_EQUAL = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_PLUS = r'\+'
