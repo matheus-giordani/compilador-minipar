@@ -6,7 +6,7 @@ from tkinter import ttk
 
   
 PORT = 5000
-SERVER = "10.1.1.112"
+SERVER = "127.0.1.1"
 ADDRESS = (SERVER, PORT) 
 FORMAT = "utf-8"
 client = socket.socket(socket.AF_INET,  
